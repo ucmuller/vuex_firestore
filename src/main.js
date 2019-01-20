@@ -5,12 +5,13 @@ import App from './App'
 import router from './router'
 import {store} from '@/store/'
 import Firebase from '@/api/firebase/firebase'
+import Firestore from '@/api/firebase/firestore'
 
 
 Vue.config.productionTip = false
-console.log(store)
 
 Firebase.init();
+// Firestore.init();
 
 // Firebase.initializeApp(config);
 

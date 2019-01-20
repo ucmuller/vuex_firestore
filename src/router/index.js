@@ -1,8 +1,11 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import HelloWorld from '@/components/HelloWorld'
-import Signup from '@/components/signup'
-import Signin from '@/components/signin'
+import Signup from '@/components/Signup'
+import Signin from '@/components/Signin'
+import InviteForm from '@/components/InviteForm'
+import UserPage from '@/components/UserPage'
+import InvitePage from '@/components/InvitePage'
 import firebase from 'firebase'
 
 Vue.use(Router)
@@ -29,6 +32,27 @@ let router =  new Router({
       path: '/signin',
       name: 'Signin',
       component: Signin   
+    },
+    {
+      path: '/inviteform',
+      name: 'Inviteform',
+      component: InviteForm   
+    },
+    {
+      path: '/userpage/:id',
+      name: 'UserPage',
+      component: UserPage,
+      props: route => ({
+        id: Number(route.params.id)
+      })
+    },
+    {
+      path: '/invitepage/:id',
+      name: 'InvitePage',
+      component: InvitePage,
+      props: route => ({
+        id: Number(route.params.id)
+      })
     }
   ]
 })

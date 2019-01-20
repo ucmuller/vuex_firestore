@@ -15,7 +15,7 @@
 import Firebase from '@/api/firebase/firebase'
 export default {
   name: 'Signin',
-    data() {
+  data() {
     return {
       email: '',
       password: ''
@@ -23,8 +23,6 @@ export default {
   },
   created: function(){
     Firebase.onAuth()
-    console.log(this.$store)
-    console.log("this.$store")
   },
 
   computed: {
