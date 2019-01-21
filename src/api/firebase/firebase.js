@@ -7,24 +7,6 @@ import router from '@/router'
 import types from '@/store/mutation-types';
 
 
-// const config = {
-//   apiKey: "AIzaSyCFHDrspcVSK6vFgK2XEr8uqf1cgDtKerw",
-//   authDomain: "reserve-beta.firebaseapp.com",
-//   databaseURL: "https://reserve-beta.firebaseio.com",
-//   projectId: "reserve-beta",
-//   storageBucket: "reserve-beta.appspot.com",
-//   messagingSenderId: "297677270503"
-// };
-
-// // const firebaseApp = firebase.initializeApp(config);
-// // const db = firebaseApp.firestore();
-// // const settings = { timestampsInSnapshots: true };
-// // db.settings(settings);
-// const firestore = firebase.firestore();
-// const settings = {/* your settings... */ timestampsInSnapshots: true};
-// firestore.settings(settings);
-
-
 export default {
   init(){
     firebase.initializeApp(firebaseConfig)

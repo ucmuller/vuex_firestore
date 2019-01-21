@@ -3,6 +3,8 @@ import '@firebase/firestore';
 import {store} from '@/store/'
 import router from '@/router'
 import firebaseConfig from './firebaseConfig'
+import types from '@/store/mutation-types';
+
 
 
 const firebaseApp = firebase.initializeApp(firebaseConfig, 'exercise-vue')
@@ -11,7 +13,7 @@ const settings = {timestampsInSnapshots: true};
 firestore.settings(settings);
 
 export default {
-  sendtoFirestore(uid,email,date){
+  sendToFirestore(uid,email,date){
     firestore.collection("invite").doc(uid).set({
         email: email,
         date: date
@@ -23,25 +25,45 @@ export default {
         console.error("Error writing document: ", error);
     });
   },
+
   getInviteData(uid){
-   
-    firestore.collection("invite").doc(uid).get().then(function(doc) {
-      let array = []
-      if (doc.exists) {
-        let data = {date: doc.data().date}
-          console.log("Document data:", doc.data())
-          array.push(data);
-          console.log("Document arraydata:", array[0])
-          return array
-      } else {
-          // doc.data() will be undefined in this case
-          console.log("No such document!");
-      }
-      // return array[0]
+    firestore.collection("invite").doc(uid).get()
+    .then((doc) => {
+        let invitDataArray = []
+        let data = {
+          date: doc.data().date,
+          email: doc.data().email
+        }
+        invitDataArray.push(data);
+        store.commit(types.DATACHANGED, invitDataArray)
     }).catch(function(error) {
         console.log("Error getting document:", error);
     });
   }
+  
+  // getInviteData(uid){
+  //   firestore.collection("invite").doc(uid).get()
+  //   .then((doc) => {
+  //     let array = []
+  //     if (doc.exists) {
+  //       let data = {date: doc.data().date}
+  //         console.log("Document data:", doc.data())
+  //         array.push(data);
+  //         console.log("Document arraydata:", array)
+  //         console.log(doc.data().date)
+  //         return doc.data().date
+  //     } else {
+  //         // doc.data() will be undefined in this case
+  //         console.log("No such document!");
+  //     }
+  //     return array[0]
+  //   }).catch(function(error) {
+  //       console.log("Error getting document:", error);
+  //   });
+  // },
+
+
+  
 
 }
 

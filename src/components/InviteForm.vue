@@ -5,7 +5,7 @@
       <h2>Invite Form</h2>
       <input type="text" placeholder="email" v-model="email">
       <input type="text" placeholder="date" v-model="date">
-      <button @click="sendtoFirestore">内容確定</button>
+      <button @click="sendToFirestore">内容確定</button>
       <button @click="logout">Log out</button>
       <router-link :to="{name:'UserPage',params:{id:user.uid}}">userpage!</router-link>
     </div>
@@ -44,8 +44,8 @@ export default {
     logout() {
       Firebase.logout();
     },
-    sendtoFirestore(){
-      Firestore.sendtoFirestore(this.user.uid,this.email,this.date)
+    sendToFirestore(){
+      Firestore.sendToFirestore(this.user.uid,this.email,this.date)
       router.push({name:'UserPage',params:{id:this.user.uid}})
     }
   }

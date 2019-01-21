@@ -3,9 +3,10 @@
     <div>
       <h1>{{ email }}</h1>
       <h2>InvitePage</h2>
-      <h2>{{ data }}</h2>
+      <h2>invitedata:{{ getData[0]["date"] }}</h2>
       <h2>InvitePage</h2>
       <router-link to="/inviteform">InviteForm</router-link>
+      <button @click="getInviteData">aaa</button>
     </div>
       <router-link to="/signin">sign in now!</router-link>
   </div>
@@ -23,29 +24,33 @@ export default {
   data(){
     return {
       email: this.$route.params.id,
-      data: []
+      data: ''
     }
   },
 
   computed:{
     inviteData(){
       Firestore.getInviteData(this.$route.params.id)
+    },
+    getData() {
+      return this.$store.getters.data;
     }
   },
 
-  mounted() {
-    this.data = Firestore.getInviteData(this.$route.params.id)
-    console.log("mounted",this.data)
-  },
+  // mounted() {
+  //   data = Firestore.getInviteData(this.$route.params.id)
+  //   console.log("mounted",data)
+  // },
 
-  created: function(){
-    this.data = Firestore.getInviteData(this.$route.params.id)
-    console.log("cretated",this.data)
+  created(){
+    this.data = this.getInviteData()
+    console.log("created",this.data)
   },
 
   methods: {
     getInviteData(){
       Firestore.getInviteData(this.$route.params.id)
+      this.data = Firestore.getInviteData(this.$route.params.id)
     }
   }
 }
