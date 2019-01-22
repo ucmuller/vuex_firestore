@@ -1,15 +1,21 @@
 <template>
   <div id="app">
-    <img src="./assets/logo.png">
+    <!-- <img src="./assets/logo.png"> -->
+    <Drawer/>
     <router-view/>
   </div>
 </template>
 
 <script>
+import Drawer from '@/components/Drawer'
 export default {
-  name: 'App'
+  name: 'App',
+  components:{
+    Drawer
+  }
 }
 </script>
+
 
 <style>
 #app {
@@ -18,6 +24,6 @@ export default {
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
-  margin-top: 60px;
+  padding-top: 0px;
 }
 </style>

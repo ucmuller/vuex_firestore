@@ -6,6 +6,16 @@ import router from './router'
 import {store} from '@/store/'
 import Firebase from '@/api/firebase/firebase'
 import Firestore from '@/api/firebase/firestore'
+import Vuetify from 'vuetify'
+import 'vuetify/dist/vuetify.min.css'
+import 'material-design-icons-iconfont/dist/material-design-icons.css'
+import VueMaterial from 'vue-material'
+import 'vue-material/dist/vue-material.min.css'
+
+
+
+Vue.use(Vuetify)
+Vue.use(VueMaterial)
 
 
 Vue.config.productionTip = false

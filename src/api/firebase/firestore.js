@@ -4,6 +4,8 @@ import {store} from '@/store/'
 import router from '@/router'
 import firebaseConfig from './firebaseConfig'
 import types from '@/store/mutation-types';
+import '@/api/firebase/firebase'
+
 
 
 
@@ -26,6 +28,20 @@ export default {
     });
   },
 
+  saveUserDataInFirestore(uid,data){
+    firestore.collection("user").doc(uid).set({
+        name: data.name,  
+        email: data.email,
+        password:data.password
+    })
+    .then(function() {
+        console.log("new collection written with ID");
+    })
+    .catch(function(error) {
+        console.error("Error writing document: ", error);
+    });
+  },
+
   getInviteData(uid){
     firestore.collection("invite").doc(uid).get()
     .then((doc) => {
@@ -35,7 +51,7 @@ export default {
           email: doc.data().email
         }
         invitDataArray.push(data);
-        store.commit(types.DATACHANGED, invitDataArray)
+        store.commit(types.DATACHANGED, data)
     }).catch(function(error) {
         console.log("Error getting document:", error);
     });

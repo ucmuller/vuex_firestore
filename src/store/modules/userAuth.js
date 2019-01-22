@@ -7,7 +7,8 @@ import types from '../mutation-types'
 
 const state = {
   user: {},
-  status: false
+  status: false,
+  imageURL: ''
 }
 
 const mutations = {
@@ -16,6 +17,9 @@ const mutations = {
   },
   [types.USER_ONUSERSTATUSCHANGED](state, status) {
     state.status = status;
+  },
+  [types.USER_ONUSERIMAGECHANGED](state, imageURL) {
+    state.imageURL = imageURL;
   }
 }
 
@@ -25,6 +29,9 @@ const getters = {
   },
   isSignedIn(state) {
     return state.status
+  },
+  imageURL(state){
+    return state.imageURL
   }
 }
 

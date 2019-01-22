@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import HelloWorld from '@/components/HelloWorld'
+import UserTop from '@/components/UserTop'
 import Signup from '@/components/Signup'
 import Signin from '@/components/Signin'
 import InviteForm from '@/components/InviteForm'
@@ -19,9 +19,9 @@ let router =  new Router({
     // },
     {
       path: '/',
-      name: 'HelloWorld',
-      component: HelloWorld,
-      // meta: { requiresAuth: true }
+      name: 'UserTop',
+      component: UserTop,
+      meta: { requiresAuth: true }
     },
     {
       path: '/signup',
