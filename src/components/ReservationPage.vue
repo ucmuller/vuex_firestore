@@ -41,7 +41,7 @@
 <!-- 
   <md-card-actions>
   </md-card-actions> -->
-  <div v-if="inviteFlag">
+  <!-- <div v-if="inviteFlag">
     <md-button class="md-raised">Update</md-button>
     <md-button v-if="userStatus" :href="url" class="md-primary button">
       <img src="@/assets/share-a.png" alt="" srcset="" width="100%">
@@ -51,7 +51,7 @@
   <md-dialog-alert
       :md-active.sync="alert"
       md-title="予約を確定しました。"
-      md-content="ご来店お待ちしております。" />
+      md-content="ご来店お待ちしております。" /> -->
 </md-card>
  
 </template>
@@ -89,13 +89,13 @@ export default {
 
   created: function(){
     Firebase.onAuth()
-    this.getInviteEachData()
-    console.log(document.domain == "localhost")
+    this.getReservationEachData()
+    console.log(this.$store.getters.reservationDataStatus)
   },
 
   computed: {
     dataStatus() {
-      return this.$store.getters.inviteDataStatus;
+      return this.$store.getters.reservationDataStatus;
     },
     userStatus() {
       return this.$store.getters.isSignedIn;
@@ -120,35 +120,35 @@ export default {
         // },
         {
           text: 'ゲスト名',
-          value: this.$store.getters.inviteData.guestName + '様',
+          value: this.$store.getters.reservationData.guestName + '様',
           icon: 'account_circle'
         },
         {
           text: '人数',
-          value: this.$store.getters.inviteData.people + '名様',
+          value: this.$store.getters.reservationData.people + '名様',
           icon: 'people'
         },
         {
           text: '日付',
-          value: this.$store.getters.inviteData.date,
+          value: this.$store.getters.reservationData.date,
           icon: 'calendar_today'
         },
         {
           text: '時間',
-          value: this.$store.getters.inviteData.time + '〜',
+          value: this.$store.getters.reservationData.time + '〜',
           icon: 'access_time'
         },
         {
           text: 'TEL',
-          value: this.$store.getters.inviteData.tel,
+          value: this.$store.getters.reservationData.tel,
           icon: 'phone_in_talk'
         },
         
 
       ]
-      this.shopName = this.$store.getters.inviteData.shopName
-      this.staffName = this.$store.getters.inviteData.staffName
-      this.inviteFlag = this.$store.getters.inviteData.inviteFlag
+      this.shopName = this.$store.getters.reservationData.shopName
+      this.staffName = this.$store.getters.reservationData.staffName
+      this.inviteFlag = this.$store.getters.reservationData.reservationFlag
       return datas
     },
 
@@ -165,16 +165,16 @@ export default {
     logout() {
       Firebase.logout();
     },
-    getInviteEachData(){
-      Firestore.getInviteEachData(this.$route.params.id)
+    getReservationEachData(){
+      Firestore.getReservationEachData(this.$route.params.id)
     },
-    saveReservationData(){
-      console.log(this.$store.getters.inviteData, this.$route.params.id)
-      Firestore.saveReservationData(this.$store.getters.inviteData, this.$route.params.id)
-      Firestore.inviteCompletion(this.$route.params.id)
-      this.alert = true
-      this.inviteFlag = false
-    }
+    // saveReservationData(){
+    //   console.log(this.$store.getters.inviteData, this.$route.params.id)
+    //   Firestore.saveReservationData(this.$store.getters.inviteData, this.$route.params.id)
+    //   Firestore.inviteCompletion(this.$route.params.id)
+    //   this.alert = true
+    //   this.inviteFlag = false
+    // }
 
     
   }

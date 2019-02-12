@@ -38,28 +38,28 @@ export default {
       userdata: '',
       showNavigation: false,
       showSidepanel: false,
-      links: [
-      {
-        to: '/usertop',
-        icon: 'mdi-account',
-        text: 'User Profile'
-      },
-      {
-        to: '/inviteform',
-        icon: 'mdi-view-dashboard',
-        text: 'Invite Form'
-      },
-      {
-        to: {name:'UserPage',params:{id: this.$store.getters.user.uid}},
-        icon: 'mdi-clipboard-outline',
-        text: 'User Page'
-      }
-    ]
+      // links: [
+      //   {
+      //     to: '/usertop',
+      //     icon: 'mdi-account',
+      //     text: 'User Profile'
+      //   },
+      //   {
+      //     to: '/inviteform',
+      //     icon: 'mdi-view-dashboard',
+      //     text: 'Invite Form'
+      //   },
+      //   {
+      //     to: {name:'UserPage',params:{id: this.$store.getters.user.uid}},
+      //     icon: 'mdi-clipboard-outline',
+      //     text: 'User Page'
+      //   }
+      // ]
     }
   },
   created: function(){
     Firebase.onAuth()
-    console.log(this.$store.getters.user)
+    // console.log(this.$store.getters.user)
   },
   computed: {
     user() {

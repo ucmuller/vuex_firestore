@@ -13,7 +13,7 @@
               <span>{{data.guestName}}様　{{data.people}}名</span>
               <span>{{data.date}}　{{data.time}}</span>
             </div>
-            <!-- <md-button @click="routerPush({name:'ReservationPage',params:{id:data.reservationID}})" class="md-raised md-primary">予約詳細</md-button> -->
+            <md-button @click="routerPush({name:'ReservationPage',params:{id:data.reservationID}})" class="md-raised md-primary">予約詳細</md-button>
         </md-list-item>
         <md-divider class="md-inset"></md-divider>
       </div>
@@ -66,6 +66,7 @@ data(){
 created: function(){
   Firebase.onAuth()
   this.getReservationData()
+  console.log("rp",this.$store.getters.allReservationData)
 },
 
 computed: {
@@ -99,7 +100,7 @@ methods: {
   },
   getReservationData(){
     Firestore.getReservationData(this.$route.params.id)
-    console.log(this.$store.getters.allReservationData)
+    console.log(this.$store.getters.reservationData)
   },
   routerPush(router){
     this.$router.push(router)

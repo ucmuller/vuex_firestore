@@ -6,6 +6,7 @@ import Signin from '@/components/Signin'
 import InviteForm from '@/components/InviteForm'
 import UserPage from '@/components/UserPage'
 import InvitePage from '@/components/InvitePage'
+import ReservationPage from '@/components/ReservationPage'
 import InviteList from '@/components/InviteList'
 import ReservationList from '@/components/ReservationList'
 import firebase from 'firebase'
@@ -71,7 +72,15 @@ let router =  new Router({
       props: route => ({
         id: Number(route.params.id)
       })
-    }
+    },
+    {
+      path: '/reservationpage/:id',
+      name: 'ReservationPage',
+      component: ReservationPage,
+      props: route => ({
+        id: Number(route.params.id)
+      })
+    },
   ]
 })
 

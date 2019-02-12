@@ -60,7 +60,8 @@ export default {
             'people': data.people,
             'tel': data.tel,
             'inviteId': inviteId,
-            'reservationFlag': true
+            'reservationFlag': true,
+            'staffName': data.staffName
         })
         .then(function() {
             console.log("saveReservationData: Document written with ID");
@@ -100,7 +101,8 @@ export default {
                         'guestName': doc.data().guestName,
                         'people': doc.data().people,
                         'tel': doc.data().tel,
-                        'inviteFlag': doc.data().inviteFlag
+                        'inviteFlag': doc.data().inviteFlag,
+                        'staffName': doc.data().staffName
                     }
                     inviteDataArray.push(data);
                     // console.log("ok",inviteDataArray)
@@ -161,7 +163,8 @@ export default {
                         'guestName': doc.data().guestName,
                         'people': doc.data().people,
                         'tel': doc.data().tel,
-                        'reservationFlag': doc.data().reservationFlag
+                        'reservationFlag': doc.data().reservationFlag,
+                        'staffName': doc.data().staffName
                     }
                     inviteDataArray.push(data);
                     // console.log("ok",inviteDataArray)
@@ -172,6 +175,17 @@ export default {
             store.dispatch('reservationData', inviteDataArray)
             console.log("ok2",inviteDataArray)
         });
+    },
+
+    getReservationEachData(reservationId){
+        firestore.collection("reservation").get().then(function(querySnapshot) {
+            querySnapshot.forEach(function(doc) {
+                if(reservationId == doc.id){
+                    store.dispatch('reservationDataChanged', doc.data())
+                    console.log("reservation!",doc.data())
+                }
+            });
+        })
     },
 
 

@@ -77,7 +77,7 @@ export default {
         shopName: this.shopName
       }
       Firebase.signup(userData)
-      this.upload()
+      // this.upload()
       console.log('ok')
 
     },
