@@ -6,6 +6,8 @@ import Signin from '@/components/Signin'
 import InviteForm from '@/components/InviteForm'
 import UserPage from '@/components/UserPage'
 import InvitePage from '@/components/InvitePage'
+import InviteList from '@/components/InviteList'
+import ReservationList from '@/components/ReservationList'
 import firebase from 'firebase'
 
 Vue.use(Router)
@@ -31,12 +33,28 @@ let router =  new Router({
     {
       path: '/signin',
       name: 'Signin',
-      component: Signin   
+      component: Signin
     },
     {
       path: '/inviteform',
       name: 'Inviteform',
-      component: InviteForm   
+      component: InviteForm
+    },
+    {
+      path: '/invitelist/:id',
+      name: 'InviteList',
+      component: InviteList,
+      props: route => ({
+        id: Number(route.params.id)
+      })
+    },
+    {
+      path: '/reservationlist/:id',
+      name: 'ReservationList',
+      component: ReservationList,
+      props: route => ({
+        id: Number(route.params.id)
+      })
     },
     {
       path: '/userpage/:id',

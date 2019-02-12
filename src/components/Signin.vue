@@ -1,7 +1,7 @@
 <template>
   <v-app id="inspire">
     <v-content class="signin">
-      <v-container fluid fill-height>
+      <v-container fluid>
         <v-layout align-center justify-center>
           <v-flex xs12 sm8 md4>
             <v-card class="elevation-12">
@@ -84,9 +84,7 @@ a {
   color: #42b983;
 }
 
-.signin{
-  margin-top: 60px;
+.container.fluid {
+  padding-top: 50px;
 }
-
-
 </style>

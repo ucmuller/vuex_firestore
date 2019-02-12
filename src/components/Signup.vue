@@ -1,7 +1,7 @@
 <template>
    <v-app id="inspire">
     <v-content>
-      <v-container fluid fill-height>
+      <v-container fluid>
         <v-layout align-center justify-center>
           <v-flex xs12 sm8 md4>
             <v-card class="elevation-12">
@@ -12,6 +12,7 @@
               <v-card-text>
                 <div>
                   <v-text-field prepend-icon="person" name="name" label="name" type="text" v-model="name"></v-text-field>
+                  <v-text-field prepend-icon="person" name="shopName" label="shopName" type="text" v-model="shopName"></v-text-field>
                   <v-text-field prepend-icon="email" name="email" label="email" type="text" v-model="email"></v-text-field>
                   <v-text-field id="password" prepend-icon="lock" name="Password" label="Password" type="password" v-model="password"></v-text-field>
                   <v-input prepend-icon="image">
@@ -58,6 +59,7 @@ export default {
   data() {
     return {
       name: '',
+      shopName: '',
       email: '',
       password: '',
       uploadFile:'',
@@ -71,10 +73,11 @@ export default {
         password: this.password,
         name: this.name,
         imageURL: this.uploadFile.name,
-        uploadFile: this.uploadFile
+        uploadFile: this.uploadFile,
+        shopName: this.shopName
       }
       Firebase.signup(userData)
-      // this.upload()
+      this.upload()
       console.log('ok')
 
     },
@@ -111,5 +114,8 @@ label {
   border-radius: 12px;
 }
 
+.container.fluid {
+  padding-top: 50px;
+}
 
 </style>

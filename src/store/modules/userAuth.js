@@ -6,7 +6,7 @@ import types from '../mutation-types'
 
 
 const state = {
-  user: {},
+  user: null,
   status: false,
   imageURL: ''
 }
@@ -35,9 +35,21 @@ const getters = {
   }
 }
 
+const actions = {
+  onAuth({ commit }, user){
+    commit(types.USER_ONAUTHSTATECHANGED, user)
+    commit(types.USER_ONUSERSTATUSCHANGED, user.staff_uid ? true : false);
+  },
+  getImageURL({ commit }, imageURL){
+    commit(types.USER_ONUSERIMAGECHANGED, imageURL);
+  }
+  
+}
+
 
 export default {
   state,
   mutations,
-  getters
+  getters,
+  actions
 };

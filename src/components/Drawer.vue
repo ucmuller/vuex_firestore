@@ -1,65 +1,29 @@
 <template>
-  <nav v-if="userStatus">
-    <v-toolbar flat app>
-      <v-toolbar-side-icon class="grey--text" @click="drawer = !drawer"></v-toolbar-side-icon>
-      <v-toolbar-title class="text--uppercase grey--text">Title</v-toolbar-title>
-      <v-spacer></v-spacer>
-        <v-btn flat>aaa</v-btn>
-        <v-btn flat>bbb</v-btn>
-        <v-btn flat color="grey" @click="logout">
-          <span>Sign Out</span>
-          <v-icon right>exit_to_app</v-icon>
-        </v-btn>
-    </v-toolbar>
-
-    <v-navigation-drawer
-    id="app-drawer"
-    v-model="drawer"
-    app
-    dark
-    floating
-    persistent
-    mobile-break-point="991"
-    width="260"
-  >
-      <v-layout
-        class="fill-height"
-        tag="v-list"
-        column
-      >
-        <v-list-tile avatar>
-          <v-list-tile-avatar
-          >
-          </v-list-tile-avatar>
-          <v-list-tile-title class="title">
-            Vuetify MD
-          </v-list-tile-title>
-        </v-list-tile>
-        <v-divider/>
-        <v-list-tile
-        >
-          <v-text-field
-            class="purple-input search-input"
-            label="Search..."
-          />
-        </v-list-tile>
-        <v-list-tile
-          v-for="(link, i) in links"
+    <div class="page-container md-layout-column">
+    <md-toolbar class="md-primary toolbar">
+      <!-- <md-button class="md-icon-button" @click="showNavigation = true">
+        <md-icon>menu</md-icon>
+      </md-button> -->
+      <span class="md-title">Gururi</span>
+      <md-button @click="logout" class="logout-button">logout</md-button>
+    </md-toolbar>
+<!-- 
+    <md-drawer class="drawer" :md-active.sync="showNavigation">
+      <md-toolbar class="md-transparent" md-elevation="0">
+        <span class="md-title">My App name</span>
+      </md-toolbar>
+      <md-list
+        v-for="(link, i) in links"
           :key="i"
           :to="link.to"
           avatar
-          class="v-list-item"
-        >
-          <v-list-tile-action>
-            <v-icon>{{ link.icon }}</v-icon>
-          </v-list-tile-action>
-          <v-list-tile-title
-            v-text="link.text"
-          />
-        </v-list-tile>
-      </v-layout>
-  </v-navigation-drawer>
-  </nav>
+          >
+        <md-list-item>
+          <a class="md-list-item-text" @click="routerPush(link.to)" v-text="link.text"></a>
+        </md-list-item>
+      </md-list>
+    </md-drawer> -->
+  </div>
 </template>
 
 <script>
@@ -68,61 +32,75 @@ export default {
   data(){
     return {
       drawer: false,
+      id: '',
+      photoURL: '',
+      data:'',
+      userdata: '',
+      showNavigation: false,
+      showSidepanel: false,
       links: [
       {
-        to: '/dashboard',
-        icon: 'mdi-view-dashboard',
-        text: 'Dashboard'
-      },
-      {
-        to: '/user-profile',
+        to: '/usertop',
         icon: 'mdi-account',
         text: 'User Profile'
       },
       {
-        to: '/table-list',
+        to: '/inviteform',
+        icon: 'mdi-view-dashboard',
+        text: 'Invite Form'
+      },
+      {
+        to: {name:'UserPage',params:{id: this.$store.getters.user.uid}},
         icon: 'mdi-clipboard-outline',
-        text: 'Table List'
-      },
-      {
-        to: '/typography',
-        icon: 'mdi-format-font',
-        text: 'Typography'
-      },
-      {
-        to: '/icons',
-        icon: 'mdi-chart-bubble',
-        text: 'Icons'
-      },
-      {
-        to: '/maps',
-        icon: 'mdi-map-marker',
-        text: 'Maps'
-      },
-      {
-        to: '/notifications',
-        icon: 'mdi-bell',
-        text: 'Notifications'
+        text: 'User Page'
       }
     ]
     }
   },
   created: function(){
     Firebase.onAuth()
+    console.log(this.$store.getters.user)
   },
   computed: {
     user() {
-      return this.$store.getters.user;
+      console.log(this.$store.getters.user.uid)
+      return this.$store.getters.user.uid;
     },
     userStatus() {
       return this.$store.getters.isSignedIn;
-    }
+    },
   },
   methods: {
     logout() {
       Firebase.logout();
+    },
+    routerPush(router){
+      this.$router.push(router)
     }
   }
 }
 
 </script>
+
+<style lang="scss" scoped>
+.page-container{
+  position: fixed;
+  top:0px;
+  width: 100%;
+  z-index: 3;
+}
+
+.drawer{
+  position: fixed;
+  // z-index: 2;
+}
+
+.toolbar{
+  display: flex;
+  justify-content: space-between
+}
+
+
+</style>
+
+

@@ -1,41 +1,49 @@
 <template>
-  <!-- <div class="hello">
-    <div v-if="userStatus">
-      <h1>{{ user.displayName }}</h1>
-      <h2>Essential Links</h2>
-      <router-link to="/inviteform">InviteForm</router-link>
-      <button @click="logout">Log out</button>
+  <div v-if="userStatus">
+      <md-card>
+        <md-avatar class="md-large">
+          <img :src="photo" alt="">
+        </md-avatar>
+        <!-- <md-card-header>
+          <md-card-header-text>
+            <div class="md-title">
+              <v-text-field label="shopName" v-model="shopName"/>
+            </div>
+            <div class="md-title">
+              <v-text-field label="Name" v-model="name"/>
+            </div>
+            <div class="md-title">
+              <v-text-field label="Email" v-model="email"/>
+            </div>
+            <div class="md-title">
+              <v-text-field label="Password" v-model="password"/>
+            </div>
+          </md-card-header-text>
+        </md-card-header> -->
+        <md-list class="md-double-line">
+      <md-list-item>
+        <md-icon>store_mall_directory</md-icon>
+        <span class="md-list-item-text">{{user.shopName}}</span>
+      </md-list-item>
+
+      <md-list-item>
+        <md-icon>account_circle</md-icon>
+        <span class="md-list-item-text">{{user.name}}</span>
+      </md-list-item>
+
+      <md-list-item>
+        <md-icon>email</md-icon>
+        <span class="md-list-item-text">{{user.email}}</span>
+      </md-list-item>
+    </md-list>
+
+      <md-card-actions>
+        <md-button class="md-raised md-primary">内容変更</md-button>
+      </md-card-actions>
+      
+
+    </md-card>
     </div>
-  </div> -->
-<v-app id="inspire" v-if="userStatus">
-  <v-container fill-height fluid grid-list-xl>
-    <v-layout align-center justify-center>
-      <v-flex xs12 md8>
-        <v-card>
-          <v-img :src="photoURL" aspect-ratio="1.4"></v-img>
-          <v-form>
-            <v-container >
-              <v-layout wrap>
-                <v-flex xs12 md12>
-                  <v-text-field label="Name" v-model="name"/>
-                </v-flex>
-                <v-flex xs12 md12>
-                  <v-text-field label="Email" v-model="email"/>
-                </v-flex>
-                <v-flex xs12 md12>
-                  <v-text-field label="Password" v-model="password"/>
-                </v-flex>
-                <v-flex>
-                  <v-btn color="primary" class="mx-0 font-weight-light">Update Profile</v-btn>
-                </v-flex>
-              </v-layout>
-            </v-container>
-          </v-form>
-        </v-card>
-      </v-flex>
-    </v-layout>
-  </v-container>
-  </v-app>
   <div v-else>
       <router-link to="/signin">sign in now!</router-link>
   </div>
@@ -48,6 +56,7 @@ export default {
   name: 'UserTop',
   data(){
     return{
+      shopName: '',
       name: '',
       email:'',
       password:'',
@@ -61,14 +70,19 @@ export default {
 
   computed: {
     user() {
-      this.name = this.$store.getters.user.displayName;
-      this.email = this.$store.getters.user.email;
-      this.password = this.$store.getters.user.password;
-      this.photoURL = this.$store.getters.imageURL;
-      console.log(this.$store.getters.imageURL)
+      // this.shopName = this.$store.getters.user.shopName;
+      // this.name = this.$store.getters.user.name;
+      // this.email = this.$store.getters.user.email;
+      // this.password = this.$store.getters.user.password;
+      // this.photoURL = this.$store.getters.imageURL;
+      return this.$store.getters.user
+      // console.log(this.$store.getters.imageURL)
     },
     userStatus() {
       return this.$store.getters.isSignedIn;
+    },
+    photo(){
+      return this.$store.getters.imageURL;
     }
   },
   watch: {
@@ -88,21 +102,13 @@ export default {
 }
 </script>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-/* h1, h2 {
-  font-weight: normal;
-}
-ul {
-  list-style-type: none;
-  padding: 0;
-}
-li {
-  display: inline-block;
-  margin: 0 10px;
-}
-a {
-  color: #42b983;
-} */
+
+  .md-card {
+    width: 100%;
+    margin-top: 10px;
+    display: inline-block;
+    vertical-align: top;
+  }
 
 </style>
