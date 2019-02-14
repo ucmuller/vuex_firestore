@@ -29,37 +29,16 @@
 import Firebase from '@/api/firebase/firebase'
 import Firestore from '@/api/firebase/firestore'
 import router from '@/router'
+import { mapGetters } from 'vuex'
+
 export default {
   name: 'InviteList',
-  data() {
-    return {
-      data: {
-        email: '',
-        date: '',
-        boolean: false,
-        
-      },
-       withoutSetValue: null,
-      withSetValue: null,
-      native: null
-    }
-  },
-components: {
+  components: {
     OAuth
   },
-
   data(){
     return {
-      name: '',
       id: this.$route.params.id,
-      photoURL: '',
-      date:'',
-      email:'',
-      userdata: '',
-      guestName:'',
-      age:'',
-      sex:'',
-      data:''
     }
   },
 
@@ -69,30 +48,21 @@ components: {
   },
 
   computed: {
-    user() {
-    // this.photoURL = this.$store.getters.imageURL;
-    // this.name = this.$store.getters.user.displayName;
-    return this.$store.getters.user;
-    },
-    userStatus() {
-      return this.$store.getters.isSignedIn;
-    },
     url(){
       return 'https://social-plugins.line.me/lineit/share?url=http://localhost:8080/userpage/' + this.id
     },
-    getData() {
-      return this.$store.getters.data
-    }
+    ...mapGetters({
+      getData: 'data',
+      userStatus: 'isSignedIn',
+      user: 'user'
+    })
 
   },
 
   watch: {
-    user() {
-      this.$store.getters.user;
+    data() {
+      console.log("data")
     },
-    getData(){
-      this.$store.getters.data;
-    }
   },
 
   methods: {
@@ -104,7 +74,6 @@ components: {
     },
     getInviteData(){
       Firestore.getInviteData(this.$route.params.id)
-      console.log(this.$store.getters.data)
     },
     routerPush(router){
       this.$router.push(router)

@@ -1,7 +1,7 @@
 <template>
   <div v-if="userStatus">
     <md-list class="md-triple-line">
-      <div v-for="(data, i) in getAllReservationData"
+      <div v-for="(data, i) in allReservationData"
             :key="i">
         <md-list-item v-if="data.reservationFlag">
             <md-avatar>
@@ -29,83 +29,49 @@
 import Firebase from '@/api/firebase/firebase'
 import Firestore from '@/api/firebase/firestore'
 import router from '@/router'
+import { mapGetters } from 'vuex'
+
 export default {
-name: 'InviteList',
-data() {
-  return {
-    data: {
-      email: '',
-      date: '',
-      boolean: false,
-      
+  name: 'InviteList',
+  data(){
+    return {
+      id: this.$route.params.id,
+    }
+  },
+
+  created: function(){
+    Firebase.onAuth()
+    this.getReservationData()
+  },
+
+  computed: {
+    ...mapGetters({
+      allReservationData: 'allReservationData',
+      userStatus: 'isSignedIn',
+      user: 'user'
+    })
+  },
+
+  watch: {
+    allReservationData() {
+      console.log(this.allReservationData);
     },
-      withoutSetValue: null,
-    withSetValue: null,
-    native: null
+  },
+
+  methods: {
+    login() {
+      Firebase.login();
+    },
+    logout() {
+      Firebase.logout();
+    },
+    getReservationData(){
+      Firestore.getReservationData(this.$route.params.id)
+    },
+    routerPush(router){
+      this.$router.push(router)
+    }
   }
-},
-components: {
-  OAuth
-},
-
-data(){
-  return {
-    name: '',
-    id: this.$route.params.id,
-    photoURL: '',
-    date:'',
-    email:'',
-    userdata: '',
-    guestName:'',
-    age:'',
-    sex:'',
-    data:''
-  }
-},
-
-created: function(){
-  Firebase.onAuth()
-  this.getReservationData()
-  console.log("rp",this.$store.getters.allReservationData)
-},
-
-computed: {
-  user() {
-  return this.$store.getters.user;
-  },
-  userStatus() {
-    return this.$store.getters.isSignedIn;
-  },
-  getAllReservationData() {
-    return this.$store.getters.allReservationData
-  }
-
-},
-
-watch: {
-  user() {
-    this.$store.getters.user;
-  },
-  getData(){
-    this.$store.getters.data;
-  }
-},
-
-methods: {
-  login() {
-    Firebase.login();
-  },
-  logout() {
-    Firebase.logout();
-  },
-  getReservationData(){
-    Firestore.getReservationData(this.$route.params.id)
-    console.log(this.$store.getters.reservationData)
-  },
-  routerPush(router){
-    this.$router.push(router)
-  }
-}
 }
 </script>
 

@@ -49,6 +49,7 @@ export default {
   login(email,password){
     firebase.auth().signInWithEmailAndPassword(email,password)
     .then(currentUser => {
+      Firestore.getStaffEachData(currentUser.user.uid)
       // console.log(currentUser.user.photoURL)
       // alert('Success!')
       router.push('/')

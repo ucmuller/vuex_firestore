@@ -9,7 +9,7 @@
     </md-card-media>
 
     <md-card-header>
-      <h2 class="md-title">{{shopName}}</h2>
+      <h2 class="md-title">{{inviteData.shopName}}</h2>
       <div class="md-subhead">
         <!-- <md-icon>location_on</md-icon>
         <span>2 miles</span> -->
@@ -23,7 +23,7 @@
   </md-card-area>
 
   <md-card-content>
-    <h1 class="md-title">{{staffName}}さんからの招待</h1>
+    <h1 class="md-title">{{inviteData.staffName}}さんからの招待</h1>
     <div class="card-reservation">
       <md-list class="md-double-line"
         v-for="(data, i) in getEachData"
@@ -41,7 +41,7 @@
 <!-- 
   <md-card-actions>
   </md-card-actions> -->
-  <div v-if="inviteFlag">
+  <div v-if="inviteData.inviteFlag">
     <md-button class="md-raised">Update</md-button>
     <md-button v-if="userStatus" :href="url" class="md-primary button">
       <img src="@/assets/share-a.png" alt="" srcset="" width="100%">
@@ -62,7 +62,7 @@
 import Firebase from '@/api/firebase/firebase'
 import Firestore from '@/api/firebase/firestore'
 import OAuth from "@/components/OAuth";
-
+import { mapGetters } from 'vuex'
 
 export default {
   name: 'UserPage',
@@ -94,12 +94,6 @@ export default {
   },
 
   computed: {
-    dataStatus() {
-      return this.$store.getters.inviteDataStatus;
-    },
-    userStatus() {
-      return this.$store.getters.isSignedIn;
-    },
     url(){
       let domain = document.domain
       console.log(domain)
@@ -109,15 +103,8 @@ export default {
         return `https://social-plugins.line.me/lineit/share?url=https://${domain}/invitepage/${this.id}`
       }
     },
-    user() {
-      return this.$store.getters.user
-    },
     getEachData() {
       let datas =  [
-        // {
-        //   text: 'from',
-        //   value: this.$store.getters.user.displayName
-        // },
         {
           text: 'ゲスト名',
           value: this.$store.getters.inviteData.guestName + '様',
@@ -143,16 +130,15 @@ export default {
           value: this.$store.getters.inviteData.tel,
           icon: 'phone_in_talk'
         },
-        
-
       ]
-      this.shopName = this.$store.getters.inviteData.shopName
-      this.staffName = this.$store.getters.inviteData.staffName
-      this.inviteFlag = this.$store.getters.inviteData.inviteFlag
       return datas
     },
-
-
+    ...mapGetters({
+      dataStatus: 'inviteDataStatus',
+      userStatus: 'isSignedIn',
+      user: 'user',
+      inviteData: 'inviteData',
+    })
   },
 
   watch: {

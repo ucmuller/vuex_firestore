@@ -52,6 +52,8 @@
 <script>
 // import { mapActions, mapGetters } from 'vuex'
 import Firebase from '@/api/firebase/firebase'
+import { mapGetters } from 'vuex'
+
 export default {
   name: 'UserTop',
   data(){
@@ -69,25 +71,18 @@ export default {
   },
 
   computed: {
-    user() {
-      // this.shopName = this.$store.getters.user.shopName;
-      // this.name = this.$store.getters.user.name;
-      // this.email = this.$store.getters.user.email;
-      // this.password = this.$store.getters.user.password;
-      // this.photoURL = this.$store.getters.imageURL;
-      return this.$store.getters.user
-      // console.log(this.$store.getters.imageURL)
-    },
-    userStatus() {
-      return this.$store.getters.isSignedIn;
-    },
     photo(){
       return this.$store.getters.imageURL;
-    }
+    },
+    ...mapGetters({
+      photo: 'imageURL',
+      userStatus: 'isSignedIn',
+      user: 'user'
+    })
   },
   watch: {
     user() {
-      this.$store.getters.user;
+      console.log("ユーザーデータ更新");
     }
   },
 

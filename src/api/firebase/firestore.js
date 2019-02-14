@@ -61,7 +61,8 @@ export default {
             'tel': data.tel,
             'inviteId': inviteId,
             'reservationFlag': true,
-            'staffName': data.staffName
+            'staffName': data.staffName,
+            'shopName': data.shopName
         })
         .then(function() {
             console.log("saveReservationData: Document written with ID");
