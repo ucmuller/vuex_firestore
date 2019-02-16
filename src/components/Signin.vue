@@ -1,56 +1,51 @@
 <template>
-  <v-app id="inspire">
-    <v-content class="signin">
-      <v-container fluid>
-        <v-layout align-center justify-center>
-          <v-flex xs12 sm8 md4>
-            <v-card class="elevation-12">
-              <v-toolbar dark color="primary">
-                <v-toolbar-title>Login form</v-toolbar-title>
-                <v-spacer></v-spacer>
-              </v-toolbar>
-              <v-card-text>
-                <v-form>
-                  <v-text-field prepend-icon="email" name="email" label="email" type="text" v-model="email"></v-text-field>
-                  <v-text-field id="password" prepend-icon="lock" name="Password" label="Password" type="password" v-model="password"></v-text-field>
-                </v-form>
-              </v-card-text>
-              <v-card-actions>
-                <v-spacer></v-spacer>
-                <v-btn color="primary" @click="login">Login</v-btn>
-                <v-spacer></v-spacer>
-              </v-card-actions>
-              <v-card-actions>
-                <v-spacer></v-spacer>
-                <router-link to="/signup">create account now!</router-link>
-                <v-spacer></v-spacer>
-              </v-card-actions>
-            </v-card>
-          </v-flex>
-        </v-layout>
-      </v-container>
-    </v-content>
-  </v-app>
-    <!-- <div class='signup'>
-    <h2>Signin</h2>
-    <input type="text" placeholder="email" v-model="email">
-    <input type="password" placeholder="Password" v-model="password">
-    <button @click="login">Signin</button>
-    <p>You Don't have an account?
-      <router-link to="/signup">create account now!</router-link>
-    </p>
-  </div> -->
+  <div class="centered-container">
+    <md-content class="md-elevation-3">
+
+      <div class="title">
+        <div class="md-title">Login</div>
+      </div>
+
+      <div class="form">
+        <md-field>
+          <md-icon>person</md-icon>
+          <label>E-mail</label>
+          <md-input v-model="email" autofocus></md-input>
+        </md-field>
+
+        <md-field md-has-password>
+          <md-icon>lock</md-icon>
+          <label>Password</label>
+          <md-input v-model="password" type="password"></md-input>
+        </md-field>
+      </div>
+
+      <div class="login-button">
+        <md-button class="md-raised md-primary" @click="login">Login</md-button>
+      </div>
+      <div>
+        <router-link to="/signup">アカウント作成はこちら</router-link>
+      </div>
+
+      <div class="loading-overlay" v-if="loading">
+        <md-progress-spinner md-mode="indeterminate" :md-stroke="2"></md-progress-spinner>
+      </div>
+
+    </md-content>
+  </div>
+
 </template>
 
 <script>
-// import { mapActions, mapGetters } from 'vuex'
+import { mapGetters } from 'vuex'
 import Firebase from '@/api/firebase/firebase'
 export default {
   name: 'Signin',
   data() {
     return {
       email: '',
-      password: ''
+      password: '',
+      loading: false,
     }
   },
   created: function(){
@@ -58,21 +53,24 @@ export default {
   },
 
   computed: {
-    user() {
-      return this.$store.getters.user;
-    },
-    userStatus() {
-      return this.$store.getters.inSignedIn;
-    }
+    ...mapGetters({
+      userStatus: 'isSignedIn',
+      user: 'user',
+    })
   },
 
   methods: {
     login() {
+      this.loading = true;
       Firebase.login(this.email, this.password);
+      setTimeout(() => {
+        this.loading = false;
+      }, 3000);
     },
     logout() {
       Firebase.logout();
-    }
+    },
+
   }
   
 }
@@ -84,7 +82,49 @@ a {
   color: #42b983;
 }
 
-.container.fluid {
-  padding-top: 50px;
+
+.centered-container {
+  position: relative;
+  width: 90%;
+  margin-top: 70px;
+  display: inline-block;
+  vertical-align: top;
+  align-items: center;
+  justify-content: center;
+  padding-left: 10px;
+  padding-right: 10px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  margin-bottom: 80px;
+  max-width: 600px;
+}
+.login-button{
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+.title {
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.md-content {
+  z-index: 2;
+  padding: 40px;
+  width: 100%;
+  display: relative;
+}
+.loading-overlay {
+  z-index: 2;
+  top: 0;
+  left: 0;
+  right: 0;
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background: rgba(255, 255, 255, 0.9);
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 </style>

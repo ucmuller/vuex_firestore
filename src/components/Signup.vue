@@ -1,53 +1,57 @@
 <template>
-   <v-app id="inspire">
-    <v-content>
-      <v-container fluid>
-        <v-layout align-center justify-center>
-          <v-flex xs12 sm8 md4>
-            <v-card class="elevation-12">
-              <v-toolbar dark color="primary">
-                <v-toolbar-title>Signup form</v-toolbar-title>
-                <v-spacer></v-spacer>
-              </v-toolbar>
-              <v-card-text>
-                <div>
-                  <v-text-field prepend-icon="person" name="name" label="name" type="text" v-model="name"></v-text-field>
-                  <v-text-field prepend-icon="person" name="shopName" label="shopName" type="text" v-model="shopName"></v-text-field>
-                  <v-text-field prepend-icon="email" name="email" label="email" type="text" v-model="email"></v-text-field>
-                  <v-text-field id="password" prepend-icon="lock" name="Password" label="Password" type="password" v-model="password"></v-text-field>
-                  <v-input prepend-icon="image">
-                    <label for="file_photo">
-                      <input id="file_photo" @change="selectFile" type="file" name="file" style="display:none;">
-                      <div id="errArea"> {{ infoMsg }}</div>
-                    </label>
-                  </v-input>
-                </div>
-              </v-card-text>
-              <v-card-actions>
-                <v-spacer></v-spacer>
-                <v-btn color="primary" @click="signup">Signup</v-btn>
-                <v-spacer></v-spacer>
-              </v-card-actions>
-              <v-card-actions>
-                <v-spacer></v-spacer>
-                <router-link to="/signin">sign in now!</router-link>
-                <v-spacer></v-spacer>
-              </v-card-actions>
-            </v-card>
-          </v-flex>
-        </v-layout>
-      </v-container>
-    </v-content>
-  </v-app>
-  <!-- <div class='signup'>
-    <h2>Sign up</h2>
-    <input type="text" placeholder="email" v-model="email">
-    <input type="password" placeholder="Password" v-model="password">
-    <button @click="signup">Register</button>
-    <p>Do you have account?
-      <router-link to="/signin">sign in now!</router-link>
-    </p>
-  </div> -->
+<div class="centered-container">
+    <md-content class="md-elevation-3">
+
+      <div class="title">
+        <div class="md-title">アカウント登録</div>
+      </div>
+
+      <div class="form">
+        <md-field>
+          <md-icon>person</md-icon>
+          <label>名前</label>
+          <md-input v-model="name" autofocus></md-input>
+        </md-field>
+
+        <md-field>
+          <md-icon>home</md-icon>
+          <label>店舗名</label>
+          <md-input v-model="shopName" autofocus></md-input>
+        </md-field>
+        
+        <md-field>
+          <md-icon>email</md-icon>
+          <label>E-mail</label>
+          <md-input v-model="email" autofocus></md-input>
+        </md-field>
+
+        <md-field md-has-password>
+          <md-icon>lock</md-icon>
+          <label>Password</label>
+          <md-input v-model="password" type="password"></md-input>
+        </md-field>
+
+        <v-input prepend-icon="image">
+          <label class="photo-label" for="file_photo">
+            <input id="file_photo" @change="selectFile" type="file" name="file" style="display:none;">
+            <div id="errArea"> {{ infoMsg }}</div>
+          </label>
+        </v-input>
+      </div>
+
+      <div class="signup-button">
+        <md-button class="md-raised md-primary" @click="signup">signup</md-button>
+      </div>
+      <div>
+        <router-link to="/">ログインはこちら</router-link>
+      </div>
+
+      <div class="loading-overlay" v-if="loading">
+        <md-progress-spinner md-mode="indeterminate" :md-stroke="2"></md-progress-spinner>
+      </div>
+
+    </md-content>
+</div>
 </template>
 
 <script>
@@ -63,22 +67,25 @@ export default {
       email: '',
       password: '',
       uploadFile:'',
-      infoMsg:'＋写真を選択'
+      infoMsg:'＋写真を選択',
+      loading: false,
     }
   },
   methods: {
     signup(){
+      this.loading = true;
       let userData = {
-        email: this.email,
-        password: this.password,
-        name: this.name,
-        imageURL: this.uploadFile.name,
-        uploadFile: this.uploadFile,
-        shopName: this.shopName
+        'email': this.email,
+        'password': this.password,
+        'name': this.name,
+        'imageURL': this.uploadFile.name,
+        'uploadFile': this.uploadFile,
+        'shopName': this.shopName
       }
       Firebase.signup(userData)
-      // this.upload()
-      console.log('ok')
+      setTimeout(() => {
+        this.loading = false;
+      }, 3000);
 
     },
     selectFile: function (e) {
@@ -87,7 +94,6 @@ export default {
       this.uploadFile = files[0];
       console.log(files[0])
       this.infoMsg = this.uploadFile.name
-
     },
     upload() {
       if (!this.uploadFile) {
@@ -107,15 +113,57 @@ a {
   color: #42b983;
 }
 
-label {
+.photo-label {
   color: white;  
   background-color: #AAA;
   padding: 6px;
   border-radius: 12px;
 }
 
-.container.fluid {
-  padding-top: 50px;
+.centered-container {
+  align-items: center;
+  justify-content: center;
+  /* position: relative; */
+  width: 90%;
+  margin-top: 70px;
+  display: inline-block;
+  vertical-align: top;
+  padding-left: 10px;
+  padding-right: 10px;
+  padding-top: 30px;
+  padding-bottom: 10px;
+  margin-bottom: 110px;
+  max-width: 600px;
+}
+
+.title {
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.signup-button{
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+.md-content {
+  z-index: 2;
+  padding: 40px;
+  width: 100%;
+  position: relative;
+}
+.loading-overlay {
+  z-index: 2;
+  top: 0;
+  left: 0;
+  right: 0;
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background: rgba(255, 255, 255, 0.9);
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 </style>

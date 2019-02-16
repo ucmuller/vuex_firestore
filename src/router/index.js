@@ -5,7 +5,9 @@ import Signup from '@/components/Signup'
 import Signin from '@/components/Signin'
 import InviteForm from '@/components/InviteForm'
 import UserPage from '@/components/UserPage'
+import UserUpdate from '@/components/UserUpdate'
 import InvitePage from '@/components/InvitePage'
+import InvitePageUpdate from '@/components/InvitePageUpdate'
 import ReservationPage from '@/components/ReservationPage'
 import InviteList from '@/components/InviteList'
 import ReservationList from '@/components/ReservationList'
@@ -21,9 +23,15 @@ let router =  new Router({
     //   redirect: 'signin'
     // },
     {
-      path: '/',
+      path: '/usertop',
       name: 'UserTop',
       component: UserTop,
+      meta: { requiresAuth: true }
+    },
+    {
+      path: '/userupdate',
+      name: 'UserUpdate',
+      component: UserUpdate,
       meta: { requiresAuth: true }
     },
     {
@@ -32,7 +40,7 @@ let router =  new Router({
       component: Signup
     },
     {
-      path: '/signin',
+      path: '/',
       name: 'Signin',
       component: Signin
     },
@@ -69,6 +77,14 @@ let router =  new Router({
       path: '/invitepage/:id',
       name: 'InvitePage',
       component: InvitePage,
+      props: route => ({
+        id: Number(route.params.id)
+      })
+    },
+    {
+      path: '/invitepageupdate/:id',
+      name: 'InvitePageUpdate',
+      component: InvitePageUpdate,
       props: route => ({
         id: Number(route.params.id)
       })

@@ -31,11 +31,12 @@ export default {
   color: #2c3e50;
   padding-top: 0px;
   overflow: hidden;
+  background: #fff;
 }
 
 .main{
-  margin-top: 55px;
-  margin-bottom: 50px;
+  /* margin-top: 55px; */
+  /* margin-bottom: 50px; */
 }
 .component-fade-enter-active, .component-fade-leave-active {
   transition: opacity .2s ease;

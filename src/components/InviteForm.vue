@@ -1,5 +1,5 @@
 <template>
-  <md-card class="md-card-example" v-if="userStatus">
+  <md-card class="md-card" v-if="userStatus">
       <md-card-area md-inset>
         <md-card-media md-ratio="16:9">
           <img src="https://images.unsplash.com/photo-1521017432531-fbd92d768814?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&w=1000&q=80" alt="Coffee House">
@@ -7,43 +7,40 @@
 
         <md-card-header>
           <h2 class="md-title">{{user.shopName}}</h2>
-          <div class="md-subhead">
+          <!-- <div class="md-subhead">
             <md-icon>location_on</md-icon>
             <span>2 miles</span>
-          </div>
+          </div> -->
         </md-card-header>
-        <md-card-content>
+        <!-- <md-card-content>
           Shop Detail Shop Detail 
           Shop Detail Shop Detail 
-        </md-card-content>
+        </md-card-content> -->
       </md-card-area>
 
       <md-card-content>
-        <h3 class="md-subheading">Reserve Detail</h3>
+        <h3 class="md-subheading">Invite Detail</h3>
         <div class="card-reservation">
-          <md-icon>access_time</md-icon>
           <div class="md-layout-item">
           <md-field>
             <label>店名</label>
             <md-input v-model="user.shopName"></md-input>
           </md-field>
           <md-field>
-            <label for="movie">日付</label>
-            <md-select v-model="data.date" id="time">
-              <md-option value="2/14">2/14</md-option>
-              <md-option value="2/15">2/15</md-option>
+            <label>日付</label>
+            <md-select v-model="data.date" id="date">
+              <md-option :value="today">{{today}}</md-option>
+              <md-option :value="tomorrow">{{tomorrow}}</md-option>
             </md-select>
           </md-field>
           <md-field>
-            <label for="movie">時間</label>
+            <label>時間</label>
             <md-select v-model="data.time" id="time">
-              <md-option value="19:00">19:00</md-option>
-              <md-option value="19:30">19:30</md-option>
-              <md-option value="20:00">20:00</md-option>
-              <md-option value="20:30">20:30</md-option>
-              <md-option value="21:00">21:00</md-option>
-              <md-option value="21:30">21:30</md-option>
-              <md-option value="22:00">22:00</md-option>
+              <md-option 
+                v-for="(time, i) in times"
+                :key="i" 
+                :value="time">{{time}}
+              </md-option>
             </md-select>
           </md-field>
           <md-field>
@@ -52,7 +49,12 @@
           </md-field>
           <md-field>
             <label>人数</label>
-            <md-input v-model="data.people"></md-input>
+            <md-select v-model="data.people" id="people">
+              <md-option 
+                v-for="(people, i) in peoples"
+                :key="i" 
+                :value="people">{{people}}
+              </md-option>            </md-select>
           </md-field>
           <md-field>
             <label>TEL</label>
@@ -88,7 +90,21 @@ export default {
         guestName:'',
         people:'',
         shopName: ''
-      }
+      },
+      today:`${new Date().getMonth()+1}/${new Date().getDate()}`,
+      tomorrow: `${new Date().getMonth()+1}/${new Date().getDate() + 1}`,
+      times:
+        [
+        "17:00","17:30",
+        "18:00","18:30",
+        "19:00","19:30",
+        "20:00","20:30",
+        "21:00","21:30",
+        "22:00","22:30",
+        "23:00","23:30",
+        "24:00","24:30",
+        ],
+      peoples: [1,2,3,4,5,6,7,8],
     }
   },
   created: function(){
@@ -123,9 +139,15 @@ export default {
 a {
   color: #42b983;
 }
-.md-card-example{
-  padding: 10px;
-  padding-bottom: 60px
-  
+.md-card{
+  width: 90%;
+  margin-top: 70px;
+  display: inline-block;
+  vertical-align: top;
+  padding-left: 10px;
+  padding-right: 10px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  margin-bottom: 80px;
 }
 </style>

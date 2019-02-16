@@ -2,57 +2,48 @@
        <!-- <a href="https://access.line.me/oauth2/v2.1/authorize?response_type=code&client_id=1642220448&redirect_uri=http://localhost:8080/&state=12sadd43sdffgg&scope=profile">LINEログインする</a>
           <v-spacer></v-spacer>
           <OAuth/> -->
-<md-card class="md-card-example" v-if="dataStatus">
-  <md-card-area md-inset>
-    <md-card-media md-ratio="16:9">
-      <img src="https://images.unsplash.com/photo-1521017432531-fbd92d768814?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&w=1000&q=80" alt="Coffee House">
-    </md-card-media>
+<div>
+  <md-card class="md-card" v-if="dataStatus">
+    <md-card-area md-inset>
+      <md-card-media md-ratio="16:9">
+        <img src="https://images.unsplash.com/photo-1521017432531-fbd92d768814?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&w=1000&q=80" alt="Coffee House">
+      </md-card-media>
 
-    <md-card-header>
-      <h2 class="md-title">{{reservationData.shopName}}</h2>
-      <div class="md-subhead">
-        <!-- <md-icon>location_on</md-icon>
-        <span>2 miles</span> -->
-      </div>
-    </md-card-header>
+      <md-card-header>
+        <h2 class="md-title">{{reservationData.shopName}}</h2>
+        <div class="md-subhead">
+          <!-- <md-icon>location_on</md-icon>
+          <span>2 miles</span> -->
+        </div>
+      </md-card-header>
+<!-- 
+      <md-card-content>
+        Shop Detail Shop Detail 
+        Shop Detail Shop Detail 
+      </md-card-content> -->
+    </md-card-area>
 
     <md-card-content>
-      Shop Detail Shop Detail 
-      Shop Detail Shop Detail 
+      <h1 class="md-title">{{reservationData.staffName}}さんからの招待</h1>
+      <div class="card-reservation">
+        <md-list class="md-double-line"
+          v-for="(data, i) in getEachData"
+            :key="i"
+            >
+          <md-list-item>
+            <div class="md-list-item-text">
+              <md-icon class="md-primary">{{data.icon}}</md-icon>
+              <h1>{{data.value}}</h1>
+            </div>
+          </md-list-item>
+        </md-list>
+      </div>
     </md-card-content>
-  </md-card-area>
-
-  <md-card-content>
-    <h1 class="md-title">{{reservationData.staffName}}さんからの招待</h1>
-    <div class="card-reservation">
-      <md-list class="md-double-line"
-        v-for="(data, i) in getEachData"
-          :key="i"
-          >
-        <md-list-item>
-          <div class="md-list-item-text">
-            <md-icon class="md-primary">{{data.icon}}</md-icon>
-            <h1>{{data.value}}</h1>
-          </div>
-        </md-list-item>
-      </md-list>
-    </div>
-  </md-card-content>
-<!-- 
-  <md-card-actions>
-  </md-card-actions> -->
-  <!-- <div v-if="reservationData.reservationFlag">
-    <md-button class="md-raised">Update</md-button>
-    <md-button v-if="userStatus" :href="url" class="md-primary button">
-      <img src="@/assets/share-a.png" alt="" srcset="" width="100%">
-    </md-button>
-    <md-button v-else @click="saveReservationData" class="md-raised md-primary">予約を確定</md-button>
+  </md-card>
+  <div class="loading-overlay" v-if="loading">
+    <md-progress-spinner md-mode="indeterminate" :md-stroke="2"></md-progress-spinner>
   </div>
-  <md-dialog-alert
-      :md-active.sync="alert"
-      md-title="予約を確定しました。"
-      md-content="ご来店お待ちしております。" /> -->
-</md-card>
+</div>
  
 </template>
 
@@ -84,11 +75,13 @@ export default {
       datas: null,
       alert: false,
       inviteFlag: true,
+      loading: false,
     }
   },
 
   created: function(){
     Firebase.onAuth()
+    this.loadingOverlay()
     this.getReservationEachData()
   },
 
@@ -156,6 +149,12 @@ export default {
     getReservationEachData(){
       Firestore.getReservationEachData(this.$route.params.id)
     },
+    loadingOverlay(){
+      this.loading = true;
+      setTimeout(() => {
+        this.loading = false;
+      }, 500);
+    }
     // saveReservationData(){
     //   console.log(this.$store.getters.inviteData, this.$route.params.id)
     //   Firestore.saveReservationData(this.$store.getters.inviteData, this.$route.params.id)
@@ -176,9 +175,16 @@ a {
   color: black;
 }
 
-.md-card-example{
-  padding: 10px;
-  padding-bottom: 60px;
+.md-card{
+  width: 90%;
+  margin-top: 70px;
+  display: inline-block;
+  vertical-align: top;
+  padding-left: 10px;
+  padding-right: 10px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  margin-bottom: 80px;
 }
 .md-list-item-text h1{
   font-size: 20px;
@@ -188,8 +194,18 @@ a {
   text-align: center;
 }
 
-.update-button{
-  
+.loading-overlay {
+  z-index: 2;
+  top: 0;
+  left: 0;
+  right: 0;
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background: rgba(255, 255, 255, 0.95);
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 

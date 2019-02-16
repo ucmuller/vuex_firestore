@@ -37,12 +37,12 @@ export default {
           Firestore.saveStaffData(currentUserID,currentUserData,data.shopName)
           // console.log(currentUserData)
       })
-      router.push('/signin')
+      router.push('/')
     },
     (err) => {
       let errorCode = err.code
       let errorMessage = err.message
-      alert(errorCode, errorMessage)
+      // alert("もう一度正しく入力してください。")
     })
   },
 
@@ -50,28 +50,29 @@ export default {
     firebase.auth().signInWithEmailAndPassword(email,password)
     .then(currentUser => {
       Firestore.getStaffEachData(currentUser.user.uid)
-      // console.log(currentUser.user.photoURL)
-      // alert('Success!')
-      router.push('/')
+      router.push('/usertop')
     },
-    err => {
-      alert(err.messsage)
+    (err) => {
+      // alert("もう一度正しく入力してください。")
+      router.push('/')
     }
     ) 
   },
 
   logout(){
     firebase.auth().signOut().then(()=>{
-    router.push('/signin')
+      store.dispatch('logout', false)
+      router.push('/')
     })
   },
 
   onAuth(){
     firebase.auth().onAuthStateChanged(user => {
     let userData = user ? user : {};
+    console.log(user)
     Firestore.getStaffEachData(userData.uid)
     this.getImageURL(user.photoURL)
-    // console.log(staffData)
+
     });
   },
 
@@ -86,7 +87,7 @@ export default {
   getImageURL(uploadFile){
     firebase.storage().ref().child('user/' + uploadFile).getDownloadURL().then((url) => {
       store.dispatch('getImageURL', url);
-      console.log(url)
+      // console.log(url)
       return url;
   });
   },
@@ -97,6 +98,16 @@ export default {
       photoURL: firebase.auth().currentUser.uid + data.imageURL
     })
   },
+
+  changeStaffProfile(uid, data){
+    firebase.auth().currentUser.updateProfile({
+      displayName: data.name,
+    }).then(function() {
+      Firestore.changeStaffData(uid, data)
+    }).catch(function(error) {
+      console.log(error)
+    });
+  }
 
 
 

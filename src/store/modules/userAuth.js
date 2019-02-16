@@ -42,6 +42,9 @@ const actions = {
   },
   getImageURL({ commit }, imageURL){
     commit(types.USER_ONUSERIMAGECHANGED, imageURL);
+  },
+  logout({ commit }, status){
+    commit(types.USER_ONUSERSTATUSCHANGED, status);
   }
   
 }

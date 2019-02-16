@@ -29,7 +29,20 @@ export default {
         .catch(function(error) {
             console.error("Error writing document: ", error);
         });
-      },
+    },
+
+    changeStaffData(uid, data){
+        firestore.collection("staff").doc(uid).set({
+            'name': data.name,
+            'shopName': data.shopName
+        }, { merge: true })
+        .then(function() {
+            console.log("saveStaffData: success");
+        })
+        .catch(function(error) {
+            console.error("Error writing document: ", error);
+        });
+    },
 
     saveInviteData(user, data){
         firestore.collection("invite").doc().set({
@@ -43,6 +56,22 @@ export default {
             'staffName': user.name,
             'inviteFlag': true
         })
+        .then(function() {
+            console.log("saveInviteData: Document written with ID");
+        })
+        .catch(function(error) {
+            console.error("Error writing document: ", error);
+        });
+    },
+
+    changeInviteData(inviteId, data){
+        firestore.collection("invite").doc(inviteId).set({
+            'time': data.time,
+            'date': data.date,
+            'guestName': data.guestName,
+            'people': data.people,
+            'tel': data.tel,
+        }, { merge: true })
         .then(function() {
             console.log("saveInviteData: Document written with ID");
         })
@@ -74,9 +103,9 @@ export default {
 
     saveUserDataInFirestore(uid,data){
         firestore.collection("user").doc(uid).set({
-            name: data.name,  
-            email: data.email,
-            password:data.password
+            "name": data.name,  
+            "email": data.email,
+            "password":data.password
         })
         .then(function() {
             console.log("new collection written with ID");
@@ -89,6 +118,7 @@ export default {
     getInviteData(uid){
         firestore.collection("invite").get().then(function(querySnapshot) {
             let inviteDataArray = []
+            let TrueFlagInviteDataArray = []
             querySnapshot.forEach(function(doc) {
                 // doc.data() is never undefined for query doc snapshots
                 // console.log(doc.id, " => ", doc.data().from_uid);
@@ -106,13 +136,16 @@ export default {
                         'staffName': doc.data().staffName
                     }
                     inviteDataArray.push(data);
-                    // console.log("ok",inviteDataArray)
-                }else{
-                    console.log("no data")
+                }
+                
+                if(uid == doc.data().from_uid && doc.data().inviteFlag == true){
+                    let TrueFlagData = doc.data()
+                    TrueFlagInviteDataArray.push(TrueFlagData)
                 }
             });
             store.dispatch('dataChanged', inviteDataArray)
-            console.log("ok2",inviteDataArray)
+            store.dispatch('inviteDataLength', TrueFlagInviteDataArray.length)
+            console.log("inviteDataArray",TrueFlagInviteDataArray)
         });
     },
 
@@ -131,10 +164,8 @@ export default {
         firestore.collection("staff").doc(staffId).get().then(function(doc) {
             console.log("getStaffEachData:", doc.data())
             store.dispatch('onAuth', doc.data())
-
         }).catch(function(error) {
             console.log("Error getting document:", error)
-            // return doc.data()
         });
     },
 
@@ -152,7 +183,7 @@ export default {
 
     getReservationData(uid){
         firestore.collection("reservation").get().then(function(querySnapshot) {
-            let inviteDataArray = []
+            let reservationDataArray = []
             querySnapshot.forEach(function(doc) {
                 if(uid == doc.data().from_uid){
                     let data = {
@@ -167,14 +198,15 @@ export default {
                         'reservationFlag': doc.data().reservationFlag,
                         'staffName': doc.data().staffName
                     }
-                    inviteDataArray.push(data);
+                    reservationDataArray.push(data);
                     // console.log("ok",inviteDataArray)
                 }else{
                     console.log("no data")
                 }
             });
-            store.dispatch('reservationData', inviteDataArray)
-            console.log("ok2",inviteDataArray)
+            store.dispatch('reservationData', reservationDataArray)
+            store.dispatch('reservationDataLength', reservationDataArray.length)
+            console.log("reservationData",reservationDataArray)
         });
     },
 

@@ -1,7 +1,4 @@
 <template>
-       <!-- <a href="https://access.line.me/oauth2/v2.1/authorize?response_type=code&client_id=1642220448&redirect_uri=http://localhost:8080/&state=12sadd43sdffgg&scope=profile">LINEログインする</a>
-          <v-spacer></v-spacer>
-          <OAuth/> -->
 <div>
   <md-card class="md-card" v-if="dataStatus">
     <md-card-area md-inset>
@@ -16,11 +13,6 @@
           <span>2 miles</span> -->
         </div>
       </md-card-header>
-<!-- 
-      <md-card-content>
-        Shop Detail Shop Detail 
-        Shop Detail Shop Detail 
-      </md-card-content> -->
     </md-card-area>
 
     <md-card-content>
@@ -31,10 +23,47 @@
             :key="i"
             >
           <md-list-item>
-            <div class="md-list-item-text">
-              <md-icon class="md-primary">{{data.icon}}</md-icon>
-              <h1>{{data.value}}</h1>
-            </div>
+            <!-- <md-field>
+              <div>
+                <label>{{data.text}}</label>
+                <md-input v-model="datas[i].value"></md-input>
+              </div>
+            </md-field> -->
+            <md-field>
+              <div>
+                <label>{{data.value}}</label>
+
+                <md-input v-if="!data.time  && !data.date && !data.peoples" v-model="datas[i].value"></md-input>
+                
+                <div v-if="data.time">
+                  <md-select v-model="datas[i].value" id="time">
+                    <md-option 
+                      v-for="(time, j) in data.time"
+                      :key="j" 
+                      :value="time">{{time}}
+                    </md-option>
+                  </md-select>
+                </div>
+                <div v-if="data.date">
+                  <md-select v-model="datas[i].value" id="date">
+                    <md-option 
+                      v-for="(date, k) in data.date"
+                      :key="k" 
+                      :value="date">{{date}}
+                    </md-option>
+                  </md-select>
+                </div>
+                <div v-if="data.peoples">
+                  <md-select v-model="datas[i].value" id="date">
+                    <md-option 
+                      v-for="(people, k) in data.peoples"
+                      :key="k" 
+                      :value="people">{{people}}
+                    </md-option>
+                  </md-select>
+                </div>
+              </div>
+              </md-field>
           </md-list-item>
         </md-list>
       </div>
@@ -43,16 +72,16 @@
     <md-card-actions>
     </md-card-actions> -->
     <div v-if="inviteData.inviteFlag">
-      <md-button class="md-raised" @click="routerPush({name:'InvitePageUpdate',params:{id:id}})">内容変更</md-button>
-      <md-button v-if="userStatus" :href="url" class="md-primary button">
-        <img src="@/assets/share-a.png" alt="" srcset="" width="100%">
-      </md-button>
-      <md-button v-else @click="saveReservationData" class="md-raised md-primary">予約を確定</md-button>
+      <md-button class="md-raised md-primary" @click="changeInviteEachData">変更</md-button>
+      <md-button class="md-raised" @click="routerPush({name:'InvitePage',params:{id:id}})">キャンセル</md-button>
     </div>
-    <md-dialog-alert
-        :md-active.sync="alert"
-        md-title="予約を確定しました。"
-        md-content="ご来店お待ちしております。" />
+    <md-dialog-confirm
+        :md-active.sync="active"
+        md-title="招待内容を変更しました。"
+        md-confirm-text="招待ページに戻る"
+        md-cancel-text="招待リストに戻る"
+        @md-cancel="onInviteList"
+        @md-confirm="onInvitePage" />
   </md-card>
   <div class="loading-overlay" v-if="loading">
     <md-progress-spinner md-mode="indeterminate" :md-stroke="2"></md-progress-spinner>
@@ -77,18 +106,27 @@ export default {
 
   data(){
     return {
-      shopName: '',
-      staffName: '',
-      id: this.$route.params.id,
-      photoURL: '',
-      date:'',
-      email:'',
-      guestName:'',
-      people:'',
-      datas: null,
-      alert: false,
-      inviteFlag: true,
-      loading: false,
+        id: this.$route.params.id,
+        inviteFlag: true,
+        loading: false,
+        active: false,
+        datas:  [
+        {
+          value: this.$store.getters.inviteData.guestName,
+        },
+        {
+          value: this.$store.getters.inviteData.people,
+        },
+        {
+          value: this.$store.getters.inviteData.date,
+        },
+        {
+          value: this.$store.getters.inviteData.time,
+        },
+        {
+          value: this.$store.getters.inviteData.tel,
+        },
+      ]
     }
   },
 
@@ -96,7 +134,7 @@ export default {
     Firebase.onAuth()
     this.loadingOverlay()
     this.getInviteEachData()
-    console.log(document.domain == "localhost")
+    console.log(new Date().getDate())
   },
 
   computed: {
@@ -110,26 +148,42 @@ export default {
       }
     },
     getEachData() {
-      let datas =  [
+      let date = new Date()
+      let today = `${date.getMonth()+1}/${date.getDate()}`
+      let tomorrow = `${date.getMonth()+1}/${date.getDate() + 1}`
+     let datas =  [
         {
-          text: 'ゲスト名',
+          text: 'name',
           value: this.$store.getters.inviteData.guestName + '様',
           icon: 'account_circle'
         },
         {
           text: '人数',
           value: this.$store.getters.inviteData.people + '名様',
-          icon: 'people'
+          icon: 'people',
+          peoples: [1,2,3,4,5,6,7,8]
         },
         {
           text: '日付',
           value: this.$store.getters.inviteData.date,
-          icon: 'calendar_today'
+          icon: 'calendar_today',
+          date: [today,tomorrow]
         },
         {
           text: '時間',
           value: this.$store.getters.inviteData.time + '〜',
-          icon: 'access_time'
+          icon: 'access_time',
+          time:
+            [
+            "17:00","17:30",
+            "18:00","18:30",
+            "19:00","19:30",
+            "20:00","20:30",
+            "21:00","21:30",
+            "22:00","22:30",
+            "23:00","23:30",
+            "24:00","24:30",
+            ]
         },
         {
           text: 'TEL',
@@ -164,7 +218,6 @@ export default {
       console.log(this.$store.getters.inviteData, this.$route.params.id)
       Firestore.saveReservationData(this.$store.getters.inviteData, this.$route.params.id)
       Firestore.inviteCompletion(this.$route.params.id)
-      this.alert = true
       this.inviteFlag = false
     },
     routerPush(router){
@@ -175,7 +228,24 @@ export default {
       setTimeout(() => {
         this.loading = false;
       }, 500);
-    }
+    },
+    changeInviteEachData(){
+      let changeData = {
+        'time': this.datas[3].value,
+        'date': this.datas[2].value,
+        'guestName': this.datas[0].value,
+        'people': this.datas[1].value,
+        'tel': this.datas[4].value,
+      }
+      Firestore.changeInviteData(this.$route.params.id, changeData)
+      this.active = true
+    },
+    onInviteList(){
+      this.routerPush({name:'InviteList',params:{id:this.user.staff_uid}})
+    },
+    onInvitePage(){
+      this.routerPush({name:'InvitePage',params:{id:this.id}})
+    },
   }
 }
 </script>

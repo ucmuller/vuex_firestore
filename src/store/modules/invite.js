@@ -7,17 +7,23 @@ import types from '../mutation-types'
 
 const state = {
   allData: null,
+  inviteAllDataLength: null,
   inviteData: null,
-  dataStatus: false
+  dataStatus: false,
+  inviteDataLength: null
 }
 
 const mutations = {
   [types.DATACHANGED](state, data) {
     state.allData = data;
+    state.inviteAllDataLength = data.length;
   },
   [types.INVITEDATACHANGED](state, data) {
     state.inviteData = data;
     state.dataStatus = true;
+  },
+  [types.INVITEDATALENGTH](state, data) {
+    state.inviteDataLength = data;
   },
 }
 
@@ -31,6 +37,13 @@ const getters = {
   inviteDataStatus(state) {
     return state.dataStatus
   },
+  inviteDataLength(state) {
+    return state.inviteDataLength
+  },
+  inviteAllDataLength(state){
+    return state.inviteAllDataLength
+
+  }
 
 }
 
@@ -40,7 +53,11 @@ const actions = {
   },
   dataChanged({ commit }, data){
     commit(types.DATACHANGED, data)
-  }
+  },
+  inviteDataLength({ commit }, data){
+    commit(types.INVITEDATALENGTH, data)
+  },
+
 }
 
 

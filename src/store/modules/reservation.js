@@ -8,7 +8,8 @@ import types from '../mutation-types'
 const state = {
   allReservationData: null,
   reservationData: null,
-  reservationDataStatus: false
+  reservationDataStatus: false,
+  reservationdataLength: null
 }
 
 const mutations = {
@@ -18,7 +19,10 @@ const mutations = {
   [types.RESERVATIONDATACHANGED](state, data) {
     state.reservationData = data;
     state.reservationDataStatus = true;
-  }
+  },
+  [types.RESERVATIONDATALENGTH](state, data) {
+    state.reservationdataLength = data;
+  },
 }
 
 const getters = {
@@ -30,6 +34,9 @@ const getters = {
   },
   reservationDataStatus(state){
     return state.reservationDataStatus
+  },
+  reservationdataLength(state){
+    return state.reservationdataLength
   }
 }
 
@@ -39,7 +46,9 @@ const actions = {
   },
   reservationDataChanged({ commit }, data){
     commit(types.RESERVATIONDATACHANGED, data)
-
+  },
+  reservationDataLength({ commit }, data){
+    commit(types.RESERVATIONDATALENGTH, data)
   }
 }
 

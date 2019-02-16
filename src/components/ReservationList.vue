@@ -1,5 +1,6 @@
 <template>
-  <div v-if="userStatus">
+<div>
+  <div v-if="userStatus" class="main">
     <md-list class="md-triple-line">
       <div v-for="(data, i) in allReservationData"
             :key="i">
@@ -13,7 +14,7 @@
               <span>{{data.guestName}}様　{{data.people}}名</span>
               <span>{{data.date}}　{{data.time}}</span>
             </div>
-            <md-button @click="routerPush({name:'ReservationPage',params:{id:data.reservationID}})" class="md-raised md-primary">予約詳細</md-button>
+            <md-button @click="routerPush({name:'ReservationPage',params:{id:data.reservationID}})" class="md-raised md-primary">詳細</md-button>
         </md-list-item>
         <md-divider class="md-inset"></md-divider>
       </div>
@@ -22,6 +23,10 @@
   <div v-else>
       <router-link to="/signin">sign in now!</router-link>
   </div>
+  <div class="loading-overlay" v-if="loading">
+    <md-progress-spinner md-mode="indeterminate" :md-stroke="2"></md-progress-spinner>
+  </div>
+</div>
 </template>
 
 <script>
@@ -41,6 +46,7 @@ export default {
 
   created: function(){
     Firebase.onAuth()
+    this.loadingOverlay()
     this.getReservationData()
   },
 
@@ -70,6 +76,12 @@ export default {
     },
     routerPush(router){
       this.$router.push(router)
+    },
+    loadingOverlay(){
+      this.loading = true;
+      setTimeout(() => {
+        this.loading = false;
+      }, 500);
     }
   }
 }
@@ -88,5 +100,21 @@ padding-bottom: 60px
 }
 .md-list-item-text{
 text-align: center
+}
+.main{
+  margin-top: 50px;
+}
+.loading-overlay {
+  z-index: 2;
+  top: 0;
+  left: 0;
+  right: 0;
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background: rgba(255, 255, 255, 0.95);
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 </style>

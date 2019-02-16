@@ -1,47 +1,45 @@
 <template>
   <div v-if="userStatus">
-      <md-card>
+      <md-card class="md-card">
         <md-avatar class="md-large">
           <img :src="photo" alt="">
         </md-avatar>
-        <!-- <md-card-header>
-          <md-card-header-text>
-            <div class="md-title">
-              <v-text-field label="shopName" v-model="shopName"/>
-            </div>
-            <div class="md-title">
-              <v-text-field label="Name" v-model="name"/>
-            </div>
-            <div class="md-title">
-              <v-text-field label="Email" v-model="email"/>
-            </div>
-            <div class="md-title">
-              <v-text-field label="Password" v-model="password"/>
-            </div>
-          </md-card-header-text>
-        </md-card-header> -->
-        <md-list class="md-double-line">
-      <md-list-item>
-        <md-icon>store_mall_directory</md-icon>
-        <span class="md-list-item-text">{{user.shopName}}</span>
-      </md-list-item>
+        <div>
+          <md-list class="md-double-line">
+            <md-list-item>
+              <md-icon>store_mall_directory</md-icon>
+              <span class="md-list-item-text">{{user.shopName}}</span>
+            </md-list-item>
 
-      <md-list-item>
-        <md-icon>account_circle</md-icon>
-        <span class="md-list-item-text">{{user.name}}</span>
-      </md-list-item>
+            <md-list-item>
+              <md-icon>account_circle</md-icon>
+              <span class="md-list-item-text">{{user.name}}</span>
+            </md-list-item>
 
-      <md-list-item>
-        <md-icon>email</md-icon>
-        <span class="md-list-item-text">{{user.email}}</span>
-      </md-list-item>
-    </md-list>
+            <md-list-item>
+              <md-icon>email</md-icon>
+              <span class="md-list-item-text">{{user.email}}</span>
+            </md-list-item>
 
-      <md-card-actions>
-        <md-button class="md-raised md-primary">内容変更</md-button>
-      </md-card-actions>
-      
+            <md-list-item>
+              <md-icon>group_add</md-icon>
+              <span class="md-list-item-text">招待数：{{inviteAllDataLength}}</span>
+            </md-list-item>
 
+            <md-list-item>
+              <md-icon>people_outline</md-icon>
+              <span class="md-list-item-text">招待中：{{inviteDataLength}}</span>
+            </md-list-item>
+
+            <md-list-item>
+              <md-icon>people</md-icon>
+              <span class="md-list-item-text">確約数：{{reservationdataLength}}</span>
+            </md-list-item>
+          </md-list>
+          <md-card-actions>
+            <md-button class="md-raised md-primary" @click="routerPush('/userupdate')">表示名変更</md-button>
+          </md-card-actions>
+        </div>
     </md-card>
     </div>
   <div v-else>
@@ -53,6 +51,8 @@
 // import { mapActions, mapGetters } from 'vuex'
 import Firebase from '@/api/firebase/firebase'
 import { mapGetters } from 'vuex'
+import router from 'vue-router'
+
 
 export default {
   name: 'UserTop',
@@ -62,12 +62,17 @@ export default {
       name: '',
       email:'',
       password:'',
-      photoURL:''
+      photoURL:'',
+      updateStatus: false
     }
   },
 
   created: function(){
     Firebase.onAuth()
+  },
+  mounted() {
+          // this.reject()
+
   },
 
   computed: {
@@ -77,7 +82,10 @@ export default {
     ...mapGetters({
       photo: 'imageURL',
       userStatus: 'isSignedIn',
-      user: 'user'
+      user: 'user',
+      inviteAllDataLength: 'inviteAllDataLength',
+      reservationdataLength: 'reservationdataLength',
+      inviteDataLength: 'inviteDataLength'
     })
   },
   watch: {
@@ -92,6 +100,14 @@ export default {
     },
     logout() {
       Firebase.logout();
+    },
+    routerPush(router){
+      this.$router.push(router)
+    },
+    reject(){
+      if(!this.userStatus){
+          this.$router.push("/signin")
+      }
     }
   }
 }
@@ -100,10 +116,14 @@ export default {
 <style scoped>
 
   .md-card {
-    width: 100%;
-    margin-top: 10px;
+    width: 90%;
+    margin-top: 70px;
     display: inline-block;
     vertical-align: top;
+    padding-left: 10px;
+    padding-right: 10px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    margin-bottom: 80px;
   }
-
 </style>
