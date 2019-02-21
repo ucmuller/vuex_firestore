@@ -14,14 +14,14 @@
               <span>{{data.guestName}}様　{{data.people}}名</span>
               <span>{{data.date}}　{{data.time}}</span>
             </div>
-            <md-button @click="routerPush({name:'ReservationPage',params:{id:data.reservationID}})" class="md-raised md-primary">詳細</md-button>
+            <md-button @click="routerPush({name:'ReservationPage',params:{id:data.reservationID}})" class="md-raised md-primary">{{data.people * 300}}円</md-button>
         </md-list-item>
         <md-divider class="md-inset"></md-divider>
       </div>
     </md-list>
   </div>
   <div v-else>
-      <router-link to="/signin">sign in now!</router-link>
+      <router-link to="/">sign in now!</router-link>
   </div>
   <div class="loading-overlay" v-if="loading">
     <md-progress-spinner md-mode="indeterminate" :md-stroke="2"></md-progress-spinner>
@@ -60,7 +60,7 @@ export default {
 
   watch: {
     allReservationData() {
-      console.log(this.allReservationData);
+      // console.log(this.allReservationData);
     },
   },
 
@@ -116,5 +116,8 @@ text-align: center
   display: flex;
   align-items: center;
   justify-content: center;
+}
+.md-list {
+  margin-bottom: 46px;
 }
 </style>

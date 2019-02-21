@@ -21,7 +21,9 @@ export default {
             'name': data.displayName,
             'email': data.email,
             'photoURL': data.photoURL,
-            'shopName': shopName
+            'shopName': shopName,
+            'messeage': "ご来店お待ちしています。",
+            'createdAt': firebase.firestore.FieldValue.serverTimestamp()
         })
         .then(function() {
             console.log("saveStaffData: success");
@@ -34,10 +36,11 @@ export default {
     changeStaffData(uid, data){
         firestore.collection("staff").doc(uid).set({
             'name': data.name,
-            'shopName': data.shopName
+            'shopName': data.shopName,
+            'messeage': data.messeage,
         }, { merge: true })
         .then(function() {
-            console.log("saveStaffData: success");
+            console.log("changeStaffData: success");
         })
         .catch(function(error) {
             console.error("Error writing document: ", error);
@@ -54,10 +57,12 @@ export default {
             'tel': data.tel,
             'shopName': user.shopName,
             'staffName': user.name,
-            'inviteFlag': true
+            'inviteFlag': true,
+            'messeage': user.messeage,
+            'createdAt': firebase.firestore.FieldValue.serverTimestamp()
         })
         .then(function() {
-            console.log("saveInviteData: Document written with ID");
+            // console.log("saveInviteData: Document written with ID");
         })
         .catch(function(error) {
             console.error("Error writing document: ", error);
@@ -73,7 +78,7 @@ export default {
             'tel': data.tel,
         }, { merge: true })
         .then(function() {
-            console.log("saveInviteData: Document written with ID");
+            // console.log("saveInviteData: Document written with ID");
         })
         .catch(function(error) {
             console.error("Error writing document: ", error);
@@ -91,10 +96,11 @@ export default {
             'inviteId': inviteId,
             'reservationFlag': true,
             'staffName': data.staffName,
-            'shopName': data.shopName
+            'shopName': data.shopName,
+            'createdAt': firebase.firestore.FieldValue.serverTimestamp()
         })
         .then(function() {
-            console.log("saveReservationData: Document written with ID");
+            // console.log("saveReservationData: Document written with ID");
         })
         .catch(function(error) {
             console.error("Error writing document: ", error);
@@ -108,7 +114,7 @@ export default {
             "password":data.password
         })
         .then(function() {
-            console.log("new collection written with ID");
+            // console.log("new collection written with ID");
         })
         .catch(function(error) {
             console.error("Error writing document: ", error);
@@ -133,19 +139,27 @@ export default {
                         'people': doc.data().people,
                         'tel': doc.data().tel,
                         'inviteFlag': doc.data().inviteFlag,
-                        'staffName': doc.data().staffName
+                        'staffName': doc.data().staffName,
+                        'createdAt': doc.data().createdAt
                     }
                     inviteDataArray.push(data);
                 }
-                
+         
                 if(uid == doc.data().from_uid && doc.data().inviteFlag == true){
                     let TrueFlagData = doc.data()
                     TrueFlagInviteDataArray.push(TrueFlagData)
                 }
+
+                inviteDataArray.sort(function(a,b){
+                    if(a.createdAt < b.createdAt) return -1;
+                    if(a.createdAt > b.createdAt) return 1;
+                    return 0;
+                });
+
             });
             store.dispatch('dataChanged', inviteDataArray)
             store.dispatch('inviteDataLength', TrueFlagInviteDataArray.length)
-            console.log("inviteDataArray",TrueFlagInviteDataArray)
+            // console.log("inviteDataArray",TrueFlagInviteDataArray)
         });
     },
 
@@ -154,7 +168,7 @@ export default {
             querySnapshot.forEach(function(doc) {
                 if(inviteId == doc.id){
                     store.dispatch('inviteDataChanged', doc.data())
-                    console.log("firestore!",doc.data())
+                    // console.log("firestore!",doc.data())
                 }
             });
         })
@@ -162,7 +176,7 @@ export default {
     
     getStaffEachData(staffId){
         firestore.collection("staff").doc(staffId).get().then(function(doc) {
-            console.log("getStaffEachData:", doc.data())
+            // console.log("getStaffEachData:", doc.data())
             store.dispatch('onAuth', doc.data())
         }).catch(function(error) {
             console.log("Error getting document:", error)
@@ -174,7 +188,7 @@ export default {
             'inviteFlag': false
         }, { merge: true })
         .then(function() {
-            console.log("saveInviteData: Document written with ID");
+            // console.log("saveInviteData: Document written with ID");
         })
         .catch(function(error) {
             console.error("Error writing document: ", error);
@@ -196,17 +210,23 @@ export default {
                         'people': doc.data().people,
                         'tel': doc.data().tel,
                         'reservationFlag': doc.data().reservationFlag,
-                        'staffName': doc.data().staffName
+                        'staffName': doc.data().staffName,
+                        'createdAt': doc.data().createdAt
                     }
                     reservationDataArray.push(data);
+                    reservationDataArray.sort(function(a,b){
+                        if(a.createdAt < b.createdAt) return -1;
+                        if(a.createdAt > b.createdAt) return 1;
+                        return 0;
+                    });
                     // console.log("ok",inviteDataArray)
                 }else{
-                    console.log("no data")
+                    // console.log("no data")
                 }
             });
             store.dispatch('reservationData', reservationDataArray)
             store.dispatch('reservationDataLength', reservationDataArray.length)
-            console.log("reservationData",reservationDataArray)
+            // console.log("reservationData",reservationDataArray)
         });
     },
 
@@ -215,7 +235,7 @@ export default {
             querySnapshot.forEach(function(doc) {
                 if(reservationId == doc.id){
                     store.dispatch('reservationDataChanged', doc.data())
-                    console.log("reservation!",doc.data())
+                    // console.log("reservation!",doc.data())
                 }
             });
         })

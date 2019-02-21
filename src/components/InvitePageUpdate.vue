@@ -2,9 +2,9 @@
 <div>
   <md-card class="md-card" v-if="dataStatus">
     <md-card-area md-inset>
-      <md-card-media md-ratio="16:9">
+      <!-- <md-card-media md-ratio="16:9">
         <img src="https://images.unsplash.com/photo-1521017432531-fbd92d768814?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&w=1000&q=80" alt="Coffee House">
-      </md-card-media>
+      </md-card-media> -->
 
       <md-card-header>
         <h2 class="md-title">{{inviteData.shopName}}</h2>
@@ -72,15 +72,15 @@
     <md-card-actions>
     </md-card-actions> -->
     <div v-if="inviteData.inviteFlag">
-      <md-button class="md-raised md-primary" @click="changeInviteEachData">変更</md-button>
       <md-button class="md-raised" @click="routerPush({name:'InvitePage',params:{id:id}})">キャンセル</md-button>
+      <md-button class="md-raised md-primary" @click="changeInviteEachData">変更</md-button>
     </div>
     <md-dialog-confirm
         :md-active.sync="active"
         md-title="招待内容を変更しました。"
         md-confirm-text="招待ページに戻る"
-        md-cancel-text="招待リストに戻る"
-        @md-cancel="onInviteList"
+        md-cancel-text="閉じる"
+        @md-cancel="onInvitePage"
         @md-confirm="onInvitePage" />
   </md-card>
   <div class="loading-overlay" v-if="loading">
@@ -161,7 +161,7 @@ export default {
           text: '人数',
           value: this.$store.getters.inviteData.people + '名様',
           icon: 'people',
-          peoples: [1,2,3,4,5,6,7,8]
+          peoples: [1,2,3,4,5,6,7,8,9,10]
         },
         {
           text: '日付',
@@ -289,5 +289,13 @@ a {
   justify-content: center;
 }
 
+.md-field{
+  height: 10px;
+  margin-bottom: 10px;
+}
+
+.md-list-item {
+    height: 55px;
+}
 
 </style>

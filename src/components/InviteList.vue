@@ -7,7 +7,7 @@
         <md-list-item v-if="data.inviteFlag">
             <md-avatar>
               <md-button class="md-icon-button md-raised md-primary">
-                <md-icon>contact_mail</md-icon>
+                <md-icon class="md-accent">contact_mail</md-icon>
               </md-button>
             </md-avatar>
             <div class="md-list-item-text">
@@ -16,18 +16,17 @@
             </div>
             <md-button @click="routerPush({name:'InvitePage',params:{id:data.inviteID}})" class="md-raised md-primary">詳細</md-button>
         </md-list-item>
-      <md-divider class="md-inset"></md-divider>
+      <md-divider v-if="data.inviteFlag" class="md-inset"></md-divider>
       </div>
     </md-list>
   </div>
   <div v-else>
-      <router-link to="/signin">sign in now!</router-link>
+      <router-link to="/">sign in now!</router-link>
   </div>
   <div class="loading-overlay" v-if="loading">
     <md-progress-spinner md-mode="indeterminate" :md-stroke="2"></md-progress-spinner>
   </div>
 </div>
-  
 </template>
 
 <script>
@@ -127,4 +126,9 @@ a {
   align-items: center;
   justify-content: center;
 }
+
+.md-list {
+  margin-bottom: 46px;
+}
+
 </style>

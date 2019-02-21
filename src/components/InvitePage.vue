@@ -25,24 +25,27 @@
 
     <md-card-content>
       <h1 class="md-title">{{inviteData.staffName}}さんからの招待</h1>
+      <h2 class="md-subhead">{{inviteData.messeage}}</h2>
       <div class="card-reservation">
         <md-list class="md-double-line"
           v-for="(data, i) in getEachData"
             :key="i"
             >
-          <md-list-item>
-            <div class="md-list-item-text">
-              <md-icon class="md-primary">{{data.icon}}</md-icon>
-              <h1>{{data.value}}</h1>
+          <div class="md-layout md-gutter md-alignment-center-center">
+            <div>
+              <md-icon class="md-accent">{{data.icon}}</md-icon>
             </div>
-          </md-list-item>
+            <div class="data-value">
+              <h1 class="md-title">{{data.value}}</h1>
+            </div>
+          </div>
         </md-list>
       </div>
     </md-card-content>
   <!-- 
     <md-card-actions>
     </md-card-actions> -->
-    <div v-if="inviteData.inviteFlag">
+    <div v-if="inviteFlag">
       <md-button class="md-raised" @click="routerPush({name:'InvitePageUpdate',params:{id:id}})">内容変更</md-button>
       <md-button v-if="userStatus" :href="url" class="md-primary button">
         <img src="@/assets/share-a.png" alt="" srcset="" width="100%">
@@ -187,6 +190,10 @@ a {
   color: black;
 }
 
+.data-value h1{
+  font-size: 20px;
+}
+
 .md-card{
   width: 90%;
   margin-top: 70px;
@@ -218,6 +225,14 @@ a {
   align-items: center;
   justify-content: center;
 }
+
+.md-card-content {
+}
+
+.data-value{
+  width: 80%;
+}
+
 
 
 </style>

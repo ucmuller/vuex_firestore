@@ -5,13 +5,13 @@
           <img src="https://images.unsplash.com/photo-1521017432531-fbd92d768814?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&w=1000&q=80" alt="Coffee House">
         </md-card-media>
 
-        <md-card-header>
+        <!-- <md-card-header>
           <h2 class="md-title">{{user.shopName}}</h2>
-          <!-- <div class="md-subhead">
+          <div class="md-subhead">
             <md-icon>location_on</md-icon>
             <span>2 miles</span>
-          </div> -->
-        </md-card-header>
+          </div>
+        </md-card-header> -->
         <!-- <md-card-content>
           Shop Detail Shop Detail 
           Shop Detail Shop Detail 
@@ -22,15 +22,15 @@
         <h3 class="md-subheading">Invite Detail</h3>
         <div class="card-reservation">
           <div class="md-layout-item">
-          <md-field>
+          <md-field class="md-field">
             <label>店名</label>
             <md-input v-model="user.shopName"></md-input>
           </md-field>
           <md-field>
             <label>日付</label>
             <md-select v-model="data.date" id="date">
-              <md-option :value="today">{{today}}</md-option>
-              <md-option :value="tomorrow">{{tomorrow}}</md-option>
+              <md-option :value="today">本日:{{today}}</md-option>
+              <md-option :value="tomorrow">明日:{{tomorrow}}</md-option>
             </md-select>
           </md-field>
           <md-field>
@@ -70,7 +70,7 @@
       </md-card-actions>
     </md-card>
   <div v-else>
-      <router-link to="/signin">sign in now!</router-link>
+      <router-link to="/">sign in now!</router-link>
   </div>
 </template>
 
@@ -104,7 +104,7 @@ export default {
         "23:00","23:30",
         "24:00","24:30",
         ],
-      peoples: [1,2,3,4,5,6,7,8],
+      peoples: [1,2,3,4,5,6,7,8,9,10],
     }
   },
   created: function(){
@@ -149,5 +149,9 @@ a {
   padding-top: 10px;
   padding-bottom: 10px;
   margin-bottom: 80px;
+}
+.md-field{
+  height: 10px;
+  margin-bottom: 10px;
 }
 </style>

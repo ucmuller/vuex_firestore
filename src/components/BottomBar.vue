@@ -66,7 +66,7 @@ export default {
 }
 </script>
 
-<style lang="scss" scoped>
+<style scoped>
 
   .phone-viewport {
     height: 57px;

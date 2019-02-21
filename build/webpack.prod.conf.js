@@ -10,6 +10,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin')
 const ExtractTextPlugin = require('extract-text-webpack-plugin')
 const OptimizeCSSPlugin = require('optimize-css-assets-webpack-plugin')
 const UglifyJsPlugin = require('uglifyjs-webpack-plugin')
+const WorkboxPlugin = require('workbox-webpack-plugin')
 
 const env = require('../config/prod.env')
 
@@ -74,6 +75,17 @@ const webpackConfig = merge(baseWebpackConfig, {
       // necessary to consistently work with multiple chunks via CommonsChunkPlugin
       chunksSortMode: 'dependency'
     }),
+// pwa追加分
+    new WorkboxPlugin.GenerateSW({
+      cacheId: 'gruri-app',
+      globDirectory: config.build.assetsRoot,
+      globPatterns: ['**/*.{html,js,css,png}'],
+      swDest: path.join(config.build.assetsRoot, 'service-worker.js'),
+      skipWaiting: true,
+      clientsClaim: true,
+      runtimeCaching: []
+    }),
+//ここまで
     // keep module.id stable when vendor modules does not change
     new webpack.HashedModuleIdsPlugin(),
     // enable scope hoisting

@@ -7,32 +7,37 @@
         <div>
           <md-list class="md-double-line">
             <md-list-item>
-              <md-icon>store_mall_directory</md-icon>
+              <md-icon class="md-accent">store_mall_directory</md-icon>
               <span class="md-list-item-text">{{user.shopName}}</span>
             </md-list-item>
 
             <md-list-item>
-              <md-icon>account_circle</md-icon>
+              <md-icon class="md-accent">account_circle</md-icon>
               <span class="md-list-item-text">{{user.name}}</span>
             </md-list-item>
 
+            <md-list-item v-if="user.messeage">
+              <md-icon class="md-accent">comment</md-icon>
+              <span class="md-list-item-text">{{user.messeage}}</span>
+            </md-list-item>
+
             <md-list-item>
-              <md-icon>email</md-icon>
+              <md-icon class="md-accent">email</md-icon>
               <span class="md-list-item-text">{{user.email}}</span>
             </md-list-item>
 
             <md-list-item>
-              <md-icon>group_add</md-icon>
+              <md-icon class="md-accent">group_add</md-icon>
               <span class="md-list-item-text">招待数：{{inviteAllDataLength}}</span>
             </md-list-item>
 
             <md-list-item>
-              <md-icon>people_outline</md-icon>
+              <md-icon class="md-accent">people_outline</md-icon>
               <span class="md-list-item-text">招待中：{{inviteDataLength}}</span>
             </md-list-item>
 
             <md-list-item>
-              <md-icon>people</md-icon>
+              <md-icon class="md-accent">people</md-icon>
               <span class="md-list-item-text">確約数：{{reservationdataLength}}</span>
             </md-list-item>
           </md-list>
@@ -42,8 +47,8 @@
         </div>
     </md-card>
     </div>
-  <div v-else>
-      <router-link to="/signin">sign in now!</router-link>
+  <div class="messeage" v-else>
+      <router-link to="/" class="md-accent">ブラウザがシークレットモードだと再ログインが必要です</router-link>
   </div>
 </template>
 
@@ -116,6 +121,17 @@ export default {
 <style scoped>
 
   .md-card {
+    width: 90%;
+    margin-top: 70px;
+    display: inline-block;
+    vertical-align: top;
+    padding-left: 10px;
+    padding-right: 10px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    margin-bottom: 80px;
+  }
+  .messeage{
     width: 90%;
     margin-top: 70px;
     display: inline-block;

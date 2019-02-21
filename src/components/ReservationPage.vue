@@ -30,12 +30,14 @@
           v-for="(data, i) in getEachData"
             :key="i"
             >
-          <md-list-item>
-            <div class="md-list-item-text">
-              <md-icon class="md-primary">{{data.icon}}</md-icon>
-              <h1>{{data.value}}</h1>
+          <div class="md-layout md-gutter md-alignment-center-center">
+            <div>
+              <md-icon class="md-accent">{{data.icon}}</md-icon>
             </div>
-          </md-list-item>
+            <div class="data-value">
+              <h1 class="md-title">{{data.value}}</h1>
+            </div>
+          </div>
         </md-list>
       </div>
     </md-card-content>
@@ -175,6 +177,10 @@ a {
   color: black;
 }
 
+.data-value h1{
+  font-size: 20px;
+}
+
 .md-card{
   width: 90%;
   margin-top: 70px;
@@ -206,6 +212,10 @@ a {
   display: flex;
   align-items: center;
   justify-content: center;
+}
+
+.data-value{
+  width: 80%;
 }
 
 

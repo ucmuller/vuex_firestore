@@ -17,13 +17,19 @@
                 <md-input v-model="datas.name"></md-input>
               </div>
             </md-field>
+            <md-field>
+              <div>
+                <label>ひとこと</label>
+                <md-input v-model="datas.messeage"></md-input>
+              </div>
+            </md-field>
           </md-card-header>
           <md-button class="md-raised md-primary" @click="changeStaffProfile">変更</md-button>
           <md-button class="md-raised" @click="routerPush('/usertop')">キャンセル</md-button>
       </md-card>
     </div>
-  <div v-else>
-      <router-link to="/signin">sign in now!</router-link>
+  <div class="messeage" v-else>
+      <router-link to="/">ブラウザがシークレットモードだと再ログインが必要です</router-link>
   </div>
 </template>
 
@@ -39,6 +45,7 @@ export default {
       datas: {
         shopName: this.$store.getters.user.shopName,
         name: this.$store.getters.user.name,
+        messeage: this.$store.getters.user.messeage,
       },
       email:'',
       password:'',
@@ -99,5 +106,8 @@ export default {
     padding-top: 10px;
     padding-bottom: 10px;
     margin-bottom: 80px;
+  }
+  input{
+    width: 300px;
   }
 </style>
