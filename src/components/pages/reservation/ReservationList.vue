@@ -2,21 +2,21 @@
 <div>
   <div v-if="userStatus" class="main">
     <md-list class="md-triple-line">
-      <div v-for="(data, i) in getData"
+      <div v-for="(data, i) in allReservationData"
             :key="i">
-        <md-list-item v-if="data.inviteFlag">
+        <md-list-item v-if="data.reservationFlag">
             <md-avatar>
               <md-button class="md-icon-button md-raised md-primary">
-                <md-icon class="md-accent">contact_mail</md-icon>
+                <md-icon >contact_mail</md-icon>
               </md-button>
             </md-avatar>
             <div class="md-list-item-text">
               <span>{{data.guestName}}様　{{data.people}}名</span>
               <span>{{data.date}}　{{data.time}}</span>
             </div>
-            <md-button @click="routerPush({name:'InvitePage',params:{id:data.inviteID}})" class="md-raised md-primary">詳細</md-button>
+            <md-button @click="routerPush({name:'ReservationPage',params:{id:data.reservationID}})" class="md-raised md-accent">{{data.people * 300}}円</md-button>
         </md-list-item>
-      <md-divider v-if="data.inviteFlag" class="md-inset"></md-divider>
+        <md-divider class="md-inset"></md-divider>
       </div>
     </md-list>
   </div>
@@ -38,37 +38,29 @@ import { mapGetters } from 'vuex'
 
 export default {
   name: 'InviteList',
-  components: {
-    OAuth
-  },
   data(){
     return {
       id: this.$route.params.id,
-      loading: false,
     }
   },
 
   created: function(){
     Firebase.onAuth()
     this.loadingOverlay()
-    this.getInviteData()
+    this.getReservationData()
   },
 
   computed: {
-    url(){
-      return 'https://social-plugins.line.me/lineit/share?url=http://localhost:8080/userpage/' + this.id
-    },
     ...mapGetters({
-      getData: 'data',
+      allReservationData: 'allReservationData',
       userStatus: 'isSignedIn',
       user: 'user'
     })
-
   },
 
   watch: {
-    data() {
-      console.log("data")
+    allReservationData() {
+      // console.log(this.allReservationData);
     },
   },
 
@@ -79,8 +71,8 @@ export default {
     logout() {
       Firebase.logout();
     },
-    getInviteData(){
-      Firestore.getInviteData(this.$route.params.id)
+    getReservationData(){
+      Firestore.getReservationData(this.$route.params.id)
     },
     routerPush(router){
       this.$router.push(router)
@@ -91,7 +83,6 @@ export default {
         this.loading = false;
       }, 500);
     }
-
   }
 }
 </script>
@@ -100,15 +91,15 @@ export default {
 <style scoped>
 
 a {
-  color: #42b983;
+color: #42b983;
 }
 .md-card-example{
-  padding: 10px;
-  padding-bottom: 60px;
+padding: 10px;
+padding-bottom: 60px
 
 }
 .md-list-item-text{
-  text-align: center
+text-align: center
 }
 .main{
   margin-top: 50px;
@@ -126,9 +117,10 @@ a {
   align-items: center;
   justify-content: center;
 }
-
 .md-list {
   margin-bottom: 46px;
 }
-
+.md-button.md-theme-default.md-raised:not([disabled]).md-accent {
+    color: white;
+}
 </style>

@@ -95,9 +95,9 @@ export default {
     position: absolute;
     top: 6px;
     right: 6px;
-    background: rgb(255, 255, 255);
+    background: #FB6359;
     border-radius: 100%;
-    color: #000;
+    color: white;
     font-size: 10px;
     font-style: normal;
     font-weight: 600;

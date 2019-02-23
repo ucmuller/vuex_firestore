@@ -45,12 +45,13 @@
   <!-- 
     <md-card-actions>
     </md-card-actions> -->
-    <div v-if="inviteFlag">
-      <md-button class="md-raised" @click="routerPush({name:'InvitePageUpdate',params:{id:id}})">内容変更</md-button>
-      <md-button v-if="userStatus" :href="url" class="md-primary button">
+    <div v-if="inviteData.inviteFlag">
+      <md-button v-if="inviteFlag" class="md-raised" @click="routerPush({name:'InvitePageUpdate',params:{id:id}})">内容変更</md-button>
+      <!-- <md-button v-if="userStatus" :href="url" class="md-raised md-primary">LINE送信
         <img src="@/assets/share-a.png" alt="" srcset="" width="100%">
-      </md-button>
-      <md-button v-else @click="saveReservationData" class="md-raised md-primary">予約を確定</md-button>
+      </md-button> -->
+      <button v-if="userStatus" @click="launchLine" class="line-button">LINE送信</button>
+      <md-button v-if="inviteFlag && !userStatus" @click="saveReservationData" class="md-raised md-accent">予約を確定</md-button>
     </div>
     <md-dialog-alert
         :md-active.sync="alert"
@@ -104,12 +105,15 @@ export default {
 
   computed: {
     url(){
+      
       let domain = document.domain
       console.log(domain)
       if(domain == "localhost"){
-        return `https://social-plugins.line.me/lineit/share?url=http://localhost:8080/invitepage/${this.id}`
+        // return `https://social-plugins.line.me/lineit/share?url=http://localhost:8080/invitepage/${this.id}`
+        return `http://line.me/R/msg/text/?代行で予約しておいたので、予約内容の確認だけお願いします。　　　　　　　　　　　　【予約代行完了|ランデブー】%0D%0Ahttp://localhost:8080/invitepage/${this.id}`
       } else {
-        return `https://social-plugins.line.me/lineit/share?url=https://${domain}/invitepage/${this.id}`
+        // return `https://social-plugins.line.me/lineit/share?url=https://${domain}/invitepage/${this.id}`
+        return `http://line.me/R/msg/text/?代行で予約しておいたので、予約内容の確認だけお願いします。　　　　　　　　　　　　【予約代行完了|ランデブー】%0D%0Ahttps://${domain}/invitepage/${this.id}`
       }
     },
     getEachData() {
@@ -164,7 +168,7 @@ export default {
       Firestore.getInviteEachData(this.$route.params.id)
     },
     saveReservationData(){
-      console.log(this.$store.getters.inviteData, this.$route.params.id)
+      // console.log(this.$store.getters.inviteData, this.$route.params.id)
       Firestore.saveReservationData(this.$store.getters.inviteData, this.$route.params.id)
       Firestore.inviteCompletion(this.$route.params.id)
       this.alert = true
@@ -178,6 +182,9 @@ export default {
       setTimeout(() => {
         this.loading = false;
       }, 500);
+    },
+    launchLine(){
+    location.href = this.url;
     }
   }
 }
@@ -233,6 +240,32 @@ a {
   width: 80%;
 }
 
+.line-button{
+  color: white;
+  background-color:#6cc655;
+  box-shadow: 0 3px 1px -2px rgba(0,0,0,.2), 
+              0 2px 2px 0 rgba(0,0,0,.14),
+              0 1px 5px 0 rgba(0,0,0,.12);
+  min-width: 88px;
+  height: 36px;
+  margin: 6px 8px;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  border-radius: 2px;
+  font-size: 14px;
+  font-weight: 500;
+  text-transform: uppercase;
+  transition:0.4s;
+}
 
+.line-button:hover {
+  opacity:0.7;
+}
+
+.md-button.md-theme-default.md-raised:not([disabled]).md-accent {
+    color: white;
+}
 
 </style>

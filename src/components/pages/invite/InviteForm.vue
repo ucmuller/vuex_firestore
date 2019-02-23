@@ -65,7 +65,7 @@
       </md-card-content>
 
       <md-card-actions>
-        <md-button @click="saveInviteData" class="md-raised md-primary">予約リストに追加</md-button>
+        <md-button @click="saveInviteData" class="md-raised md-accent">予約リストに追加</md-button>
         <!-- <router-link :to="{name:'InviteList',params:{id:user.staff_uid}}">InviteList!</router-link> -->
       </md-card-actions>
     </md-card>
@@ -153,5 +153,23 @@ a {
 .md-field{
   height: 10px;
   margin-bottom: 10px;
+}
+
+.md-field:after {
+  height: 0px;
+  border-bottom: solid 1px #E0E0E0;
+}
+.md-button.md-theme-default.md-raised:not([disabled]).md-accent {
+    color: white;
+}
+.md-field.md-theme-default:before {
+    background-color: #F8F2E3;
+    background-color: var(--md-theme-default-accent, #FB6359);
+}
+.md-field.md-theme-default.md-focused label {
+    color: var(--md-theme-default-accent, #FB6359);
+}
+.md-field.md-theme-default.md-focused > .md-icon {
+    color: var(--md-theme-default-accent, #FB6359);
 }
 </style>

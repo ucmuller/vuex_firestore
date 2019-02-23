@@ -24,8 +24,8 @@
               </div>
             </md-field>
           </md-card-header>
-          <md-button class="md-raised md-primary" @click="changeStaffProfile">変更</md-button>
-          <md-button class="md-raised" @click="routerPush('/usertop')">キャンセル</md-button>
+          <md-button class="md-raised md-accent" @click="changeStaffProfile">変更</md-button>
+          <md-button class="md-raised md-primary" @click="routerPush('/usertop')">キャンセル</md-button>
       </md-card>
     </div>
   <div class="messeage" v-else>
@@ -96,18 +96,21 @@ export default {
 
 <style scoped>
 
-  .md-card {
-    width: 90%;
-    margin-top: 70px;
-    display: inline-block;
-    vertical-align: top;
-    padding-left: 10px;
-    padding-right: 10px;
-    padding-top: 10px;
-    padding-bottom: 10px;
-    margin-bottom: 80px;
-  }
-  input{
-    width: 300px;
-  }
+.md-card {
+  width: 90%;
+  margin-top: 70px;
+  display: inline-block;
+  vertical-align: top;
+  padding-left: 10px;
+  padding-right: 10px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  margin-bottom: 80px;
+}
+input{
+  width: 300px;
+}
+.md-button.md-theme-default.md-raised:not([disabled]).md-accent {
+  color: white;
+}
 </style>

@@ -182,5 +182,7 @@ a {
   
 }
 
-
+.md-button.md-theme-default.md-raised:not([disabled]).md-accent {
+    color: white;
+}
 </style>

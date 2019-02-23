@@ -42,7 +42,7 @@
             </md-list-item>
           </md-list>
           <md-card-actions>
-            <md-button class="md-raised md-primary" @click="routerPush('/userupdate')">表示名変更</md-button>
+            <md-button class="md-raised md-accent" @click="routerPush('/userupdate')">表示名変更</md-button>
           </md-card-actions>
         </div>
     </md-card>
@@ -142,4 +142,8 @@ export default {
     padding-bottom: 10px;
     margin-bottom: 80px;
   }
+
+  .md-button.md-theme-default.md-raised:not([disabled]).md-accent {
+    color: white;
+}
 </style>

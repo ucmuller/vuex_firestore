@@ -21,10 +21,10 @@
       </div>
 
       <div class="login-button">
-        <md-button class="md-raised md-primary" @click="login">Login</md-button>
+        <md-button class="md-raised md-accent" @click="login">Login</md-button>
       </div>
       <div>
-        <router-link to="/signup">アカウント作成はこちら</router-link>
+        <router-link class="md-raised md-accent" to="/signup">アカウント作成はこちら</router-link>
       </div>
 
       <div class="loading-overlay" v-if="loading">
@@ -126,5 +126,18 @@ a {
   display: flex;
   align-items: center;
   justify-content: center;
+}
+.md-button.md-theme-default.md-raised:not([disabled]).md-accent {
+    color: white;
+}
+.md-field.md-theme-default:before {
+    background-color: #F8F2E3;
+    background-color: var(--md-theme-default-accent, #FB6359);
+}
+.md-field.md-theme-default.md-focused label {
+    color: var(--md-theme-default-accent, #FB6359);
+}
+.md-field.md-theme-default.md-focused > .md-icon {
+    color: var(--md-theme-default-accent, #FB6359);
 }
 </style>

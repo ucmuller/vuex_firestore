@@ -10,8 +10,8 @@
 </template>
 
 <script>
-import Drawer from '@/components/Drawer'
-import BottomBar from '@/components/BottomBar'
+import Drawer from '@/components/common/Drawer'
+import BottomBar from '@/components/common/BottomBar'
 export default {
   name: 'App',
   components:{
@@ -44,5 +44,17 @@ export default {
 .component-fade-enter, .component-fade-leave-to {
   opacity: 0;
 }
-
+.md-button.md-theme-default.md-raised:not([disabled]).md-accent {
+    color: white;
+}
+.md-field.md-theme-default:before {
+    background-color: #F8F2E3;
+    background-color: var(--md-theme-default-accent, #FB6359);
+}
+.md-field.md-theme-default.md-focused label {
+    color: var(--md-theme-default-accent, #FB6359);
+}
+.md-field.md-theme-default.md-focused > .md-icon {
+    color: var(--md-theme-default-accent, #FB6359);
+}
 </style>

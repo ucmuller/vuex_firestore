@@ -73,7 +73,7 @@
     </md-card-actions> -->
     <div v-if="inviteData.inviteFlag">
       <md-button class="md-raised" @click="routerPush({name:'InvitePage',params:{id:id}})">キャンセル</md-button>
-      <md-button class="md-raised md-primary" @click="changeInviteEachData">変更</md-button>
+      <md-button class="md-raised md-accent" @click="changeInviteEachData">変更</md-button>
     </div>
     <md-dialog-confirm
         :md-active.sync="active"
@@ -298,4 +298,7 @@ a {
     height: 55px;
 }
 
+.md-button.md-theme-default.md-raised:not([disabled]).md-accent {
+    color: white;
+}
 </style>

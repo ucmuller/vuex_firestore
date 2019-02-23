@@ -4,7 +4,7 @@
       <!-- <md-button class="md-icon-button" @click="showNavigation = true">
         <md-icon>menu</md-icon>
       </md-button> -->
-      <span class="md-title">Gururi</span>
+      <span class="md-title">Rendezvous</span>
       <md-button v-if="userStatus" @click="logout" class="logout-button">logout</md-button>
     </md-toolbar>
 <!-- 
